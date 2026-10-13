@@ -84,7 +84,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .card-head {
-  display: grid; grid-template-columns: 1fr minmax(150px, 260px); gap: 16px;
+  display: grid; grid-template-columns: 1fr minmax(150px, 260px) auto; gap: 16px;
   align-items: start; margin-bottom: clamp(64px, 12vw, 116px);
 }
 .mark {
@@ -94,6 +94,8 @@ a { color: inherit; text-decoration: none; }
 .mark .alpha { transition: transform 0.5s var(--ease); }
 .mark:hover .alpha { transform: rotate(-8deg); }
 .meta { font-size: 17px; line-height: 1.05; font-weight: 300; }
+/* Status pill in the card header's top-right, matching the carousel and nav bar */
+.card-head .head-chip { align-self: start; justify-self: end; white-space: nowrap; font-size: 12px; padding: 2px 8px; border-radius: 6px; }
 
 .title {
   font-size: clamp(30px, 4.4vw, 38px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.1;
@@ -387,7 +389,8 @@ a { color: inherit; text-decoration: none; }
 
 @media (max-width: 640px) {
   .card { padding-top: 62px; min-height: 100svh; border-radius: 22px 22px 0 0; }
-  .card-head { grid-template-columns: 1fr auto; gap: 12px; }
+  .card-head { grid-template-columns: 1fr auto auto; gap: 12px; }
+  .card-head .head-chip { font-size: 10px; padding: 1px 6px; }
   .meta { font-size: 13px; }
   .row { grid-template-columns: 40px 1fr; }
   .row-text { grid-column: 2; }
