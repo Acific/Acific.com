@@ -423,6 +423,14 @@ a { color: inherit; text-decoration: none; }
   display: flex; align-items: baseline; line-height: 0.8; color: #fff;
   animation: bootIn 1.2s var(--ap-ease) 0.15s both;
 }
+.intro-brand { display: flex; flex-direction: column; align-items: center; gap: clamp(16px, 2.6vh, 24px); }
+/* The wordmark, small and quiet under the logo: "acific" white, ".labs" grey */
+.intro-word {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", var(--sans);
+  font-size: clamp(15px, 2vmin, 19px); font-weight: 500; letter-spacing: 0.01em;
+  color: #86868b; animation: bootIn 1.2s var(--ap-ease) 0.45s both;
+}
+.intro-word span { color: #fff; }
 .intro-alpha {
   font-family: "Noto Serif", Georgia, serif; font-style: italic; font-weight: 700;
   font-size: clamp(64px, 11vmin, 112px); line-height: 0.8;
@@ -439,7 +447,7 @@ a { color: inherit; text-decoration: none; }
 /* Exit: a quiet fade to the carousel */
 /* Exit: logo and bar blur away, then the black fades to the carousel */
 .intro.out { animation: bootOut 0.9s var(--ap-ease) forwards; pointer-events: none; }
-.intro.out .intro-mark, .intro.out .intro-bar { animation: blurAway 0.7s var(--ap-ease) forwards; }
+.intro.out .intro-mark, .intro.out .intro-word, .intro.out .intro-bar { animation: blurAway 0.7s var(--ap-ease) forwards; }
 @keyframes bootOut { 0%, 35% { opacity: 1; } 100% { opacity: 0; } }
 @keyframes blurAway { to { opacity: 0; filter: blur(16px); transform: scale(0.97); } }
 
