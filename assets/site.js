@@ -1,12 +1,25 @@
 // Shared behaviour: live date in the card header, page reveal, commission
 // rows steering the figure, and 1–5 keys to jump between pages.
-import "./figures.js?v=20261013095136";
+import "./figures.js?v=20261013095559";
 
 const root = document.documentElement;
 
+// A card color that would vanish on a dark background becomes white there
+function onDark(hex) {
+  const m = /^#?([0-9a-f]{6})$/i.exec(hex.trim());
+  if (!m) return hex;
+  const n = parseInt(m[1], 16);
+  const lum = (0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255;
+  return lum < 0.35 ? "#ffffff" : hex;
+}
+
 // Logos outside the page card (e.g. the dock) take that card's color
 const pageCard = document.querySelector(".card");
-if (pageCard) root.style.setProperty("--band", pageCard.style.getPropertyValue("--band"));
+if (pageCard) {
+  const band = pageCard.style.getPropertyValue("--band");
+  root.style.setProperty("--band", band);
+  root.style.setProperty("--band-on-dark", onDark(band));
+}
 
 // Today's date where a poster would print its issue date
 const now = new Date();

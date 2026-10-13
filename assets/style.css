@@ -47,6 +47,8 @@ a { color: inherit; text-decoration: none; }
   font-size: 0.77em; letter-spacing: 0; margin-left: 0.04em; color: var(--ink);
 }
 .top-mark .alpha::after, .dock-home .alpha::after { color: #fff; }
+/* On dark backgrounds a dark card color would vanish, so it's swapped for white */
+.top-mark .alpha, .dock-home .alpha { color: var(--band-on-dark, var(--band, #cf5128)); }
 
 /* ---------- Color band: a slim rounded bar inset inside each card, so the
    card's rounded outline stays whole ---------- */

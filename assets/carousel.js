@@ -1,6 +1,6 @@
 // Home: a 3D carousel of small poster cards with a glass nav bar.
 // Opening a card shows its page in a popup over the blurred carousel.
-import { mountFigures } from "./figures.js?v=20261013095136";
+import { mountFigures } from "./figures.js?v=20261013095559";
 
 const root = document.documentElement;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -70,6 +70,15 @@ function swapTag(text) {
   }, 220);
 }
 
+// A card color that would vanish on a dark background becomes white there
+function onDark(hex) {
+  const m = /^#?([0-9a-f]{6})$/i.exec(hex.trim());
+  if (!m) return hex;
+  const n = parseInt(m[1], 16);
+  const lum = (0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255;
+  return lum < 0.35 ? "#ffffff" : hex;
+}
+
 function updateNav() {
   const c = cards[wrap(active)];
   swapTag(c.dataset.tag);
@@ -78,7 +87,9 @@ function updateNav() {
   navChip.textContent = c.dataset.chip;
   navThumb.style.setProperty("--band", c.style.getPropertyValue("--band"));
   // The header logo follows the card in front
-  root.style.setProperty("--band", c.style.getPropertyValue("--band"));
+  const band = c.style.getPropertyValue("--band");
+  root.style.setProperty("--band", band);
+  root.style.setProperty("--band-on-dark", onDark(band));
   navOpen.href = c.dataset.href;
   navOpen.setAttribute("aria-label", `Open ${c.dataset.title}`);
   try { sessionStorage.setItem("acific-card", String(wrap(active))); } catch { /* storage off */ }
