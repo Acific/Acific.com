@@ -43,7 +43,7 @@ a { color: inherit; text-decoration: none; }
   border-radius: 999px; background: var(--band, #b07a78);
 }
 .card { --bt: 22px; --bx: 28px; --bh: 8px; }
-.modal-card { --bt: 18px; --bx: 64px; --bh: 6px; }
+.modal-card { --bt: 36px; --bx: 64px; --bh: 6px; } /* centred on the × (top 22px + 34px / 2) */
 .cc a { --bt: 11px; --bx: 18px; --bh: 5px; }
 .ticket { --bt: 9px; --bx: 14px; --bh: 4px; }
 .exp-fig { --bt: 8px; --bx: 14px; --bh: 4px; }
@@ -327,7 +327,7 @@ a { color: inherit; text-decoration: none; }
 /* The card's contents come out of a blur one after another, top to bottom */
 @keyframes contentIn { from { opacity: 0; filter: blur(12px); transform: translateY(14px); } }
 .modal.show .modal-body > * { animation: contentIn 0.8s var(--ease) backwards; animation-delay: calc(0.12s + var(--i, 0) * 0.07s); }
-.modal-body { padding: 64px var(--pad) 52px; display: flex; flex-direction: column; }
+.modal-body { padding: 80px var(--pad) 52px; display: flex; flex-direction: column; }
 .modal-body .card-head { margin-bottom: clamp(48px, 9vw, 88px); }
 .modal-body .card-foot { padding-top: 40px; }
 .modal-close {

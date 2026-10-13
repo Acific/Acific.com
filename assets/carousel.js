@@ -1,6 +1,6 @@
 // Home: a 3D carousel of small poster cards with a glass nav bar.
 // Opening a card shows its page in a popup over the blurred carousel.
-import { mountFigures } from "./figures.js?v=20261013092811";
+import { mountFigures } from "./figures.js?v=20261013093156";
 
 const root = document.documentElement;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
