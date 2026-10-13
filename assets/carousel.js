@@ -1,6 +1,6 @@
 // Home: a 3D carousel of small poster cards with a glass nav bar.
 // Opening a card shows its page in a popup over the blurred carousel.
-import { mountFigures } from "./figures.js?v=20261013182315";
+import { mountFigures } from "./figures.js?v=20261013182633";
 
 const root = document.documentElement;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -356,42 +356,26 @@ requestAnimationFrame(loop);
 requestAnimationFrame(() => root.classList.add("in"));
 setTimeout(() => root.classList.add("in"), 120);
 
-// ---------- Cinematic intro ----------
+// ---------- Intro ----------
 // Runs once per visit: holds for its full sequence (and until fonts are in),
-// then dissolves and lets the carousel's own entrance play.
+// then fades away and lets the carousel's own entrance play.
 const intro = document.getElementById("intro");
 if (intro && root.classList.contains("booting")) {
-  const bar = document.getElementById("introBar");
-  const MIN = 3000;
-  const t0 = performance.now();
+  const MIN = 3300;
   let done = false;
-  // Progress: time and font loading both count toward a full bar
-  let fontsIn = false;
-  document.fonts?.ready.then(() => { fontsIn = true; });
-  const tickBar = () => {
-    if (done) return;
-    const p = Math.min(1, (performance.now() - t0) / MIN) * (fontsIn ? 1 : 0.85);
-    bar.parentElement.style.setProperty("--p", p.toFixed(3));
-    bar.style.setProperty("--p", p.toFixed(3));
-    setTimeout(tickBar, 60);
-  };
-  tickBar();
-
   const finish = () => {
     if (done) return;
     done = true;
-    bar.style.setProperty("--p", "1");
     try { sessionStorage.setItem("acific-intro", "1"); } catch { /* storage off */ }
     intro.classList.add("out");
-    // The carousel starts its own blur-in just as the intro starts to clear
-    setTimeout(() => { root.classList.remove("booting"); placeTag(); }, 380);
-    setTimeout(() => { intro.remove(); root.classList.add("no-intro"); }, 1100);
+    // The carousel starts its own blur-in as the intro begins to clear
+    setTimeout(() => { root.classList.remove("booting"); placeTag(); }, 320);
+    setTimeout(() => { intro.remove(); root.classList.add("no-intro"); }, 1000);
   };
-  const ready = Promise.all([
+  Promise.all([
     new Promise((r) => setTimeout(r, MIN)),
     (document.fonts?.ready ?? Promise.resolve()).catch(() => {}),
-  ]);
-  ready.then(finish);
+  ]).then(finish);
   // Click or any key skips it
   intro.addEventListener("click", finish);
   addEventListener("keydown", finish, { once: true });
