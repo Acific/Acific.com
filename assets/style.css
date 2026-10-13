@@ -74,7 +74,7 @@ a { color: inherit; text-decoration: none; }
   /* Rounded top corners like an Apple card */
   border-radius: 28px 28px 0 0;
   background: var(--card);
-  padding: 84px var(--pad) 56px;
+  padding: 104px var(--pad) 56px;
   display: flex; flex-direction: column;
   /* Scalloped "ticket" bottom edge */
   --scallop: radial-gradient(circle at 7px 100%, transparent 5px, #000 5.5px) left bottom / 14px 8px repeat-x;
@@ -85,7 +85,7 @@ a { color: inherit; text-decoration: none; }
 
 .card-head {
   display: grid; grid-template-columns: 1fr minmax(150px, 260px) auto; gap: 16px;
-  align-items: start; margin-bottom: clamp(64px, 12vw, 116px);
+  align-items: start; margin-bottom: 72px;
 }
 .mark {
   font-weight: 800; font-size: clamp(46px, 7vw, 60px); line-height: 0.8; letter-spacing: -0.04em;
@@ -355,8 +355,9 @@ a { color: inherit; text-decoration: none; }
 /* The card's contents come out of a blur one after another, top to bottom */
 @keyframes contentIn { from { opacity: 0; filter: blur(12px); transform: translateY(14px); } }
 .modal.show .modal-body > * { animation: contentIn 0.8s var(--ease) backwards; animation-delay: calc(0.12s + var(--i, 0) * 0.07s); }
-.modal-body { padding: 80px var(--pad) 52px; display: flex; flex-direction: column; }
-.modal-body .card-head { margin-bottom: clamp(48px, 9vw, 88px); }
+.modal-body { padding: 100px var(--pad) 52px; display: flex; flex-direction: column; }
+/* Even space above (to the color bar) and below (to the first rule) the logo */
+.modal-body .card-head { margin-bottom: 68px; }
 .modal-body .card-foot { padding-top: 40px; }
 .modal-close {
   /* A bare ×, no circle; still a 34px hit area centred on the color bar */
