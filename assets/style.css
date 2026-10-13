@@ -296,6 +296,9 @@ a { color: inherit; text-decoration: none; }
 }
 .modal-card::before { content: ""; display: block; height: 8px; background: var(--band, #b07a78); }
 .modal.show .modal-card { transform: none; filter: none; }
+/* The card's contents come out of a blur one after another, top to bottom */
+@keyframes contentIn { from { opacity: 0; filter: blur(12px); transform: translateY(14px); } }
+.modal.show .modal-body > * { animation: contentIn 0.8s var(--ease) backwards; animation-delay: calc(0.12s + var(--i, 0) * 0.07s); }
 .modal-body { padding: 44px var(--pad) 52px; display: flex; flex-direction: column; }
 .modal-body .card-head { margin-bottom: clamp(48px, 9vw, 88px); }
 .modal-body .card-foot { padding-top: 40px; }
@@ -342,5 +345,6 @@ a { color: inherit; text-decoration: none; }
   .reveal { opacity: 1; transform: none; filter: none; }
   .home .top, .home .cc a, .home .cnav, .home .chint { animation: none; }
   .modal, .modal-card { transition: none; }
+  .modal.show .modal-body > * { animation: none; }
   .st.run::before { animation: none; }
 }

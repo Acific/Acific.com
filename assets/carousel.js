@@ -1,6 +1,6 @@
 // Home: a 3D carousel of small poster cards with a glass nav bar.
 // Opening a card shows its page in a popup over the blurred carousel.
-import { mountFigures } from "./figures.js?v=20261013084129";
+import { mountFigures } from "./figures.js?v=20261013084412";
 
 const root = document.documentElement;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -197,6 +197,8 @@ async function openModal(href, push = true) {
     n.textContent = n.id === "dateMon" ? now.toLocaleString("en", { month: "short" }) : String(now.getDate()).padStart(2, "0");
     n.removeAttribute("id");
   });
+  // Stagger index for the blur-in of each block (capped so long pages don't drag)
+  [...modalBody.children].forEach((n, i) => n.style.setProperty("--i", Math.min(i, 10)));
   mountFigures(modalBody);
   const grid = modalBody.querySelector('svg[data-figure="grid"]');
   modalBody.querySelectorAll("[data-station]").forEach((row) => {
@@ -210,7 +212,6 @@ async function openModal(href, push = true) {
   root.classList.add("modal-open");
   void modal.offsetWidth; // let the hidden state settle so the entrance animates
   modal.classList.add("show");
-  if (wasOpen) modalCard.animate([{ opacity: 0.4, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0)" }], { duration: 380, easing: "ease-out" });
   const hash = href.split("#")[1];
   const target = hash && modalBody.querySelector(`#${CSS.escape(hash)}`);
   if (target) target.scrollIntoView({ block: "start" });
