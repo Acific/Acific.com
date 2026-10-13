@@ -1,6 +1,6 @@
 // Home: a 3D carousel of small poster cards with a glass nav bar.
 // Opening a card shows its page in a popup over the blurred carousel.
-import { mountFigures } from "./figures.js?v=20261013183208";
+import { mountFigures } from "./figures.js?v=20261013183443";
 
 const root = document.documentElement;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -384,7 +384,7 @@ if (intro && root.classList.contains("booting")) {
     setTimeout(() => intro.classList.add("out"), 300);
     // The carousel starts its own blur-in as the intro begins to clear
     setTimeout(() => { root.classList.remove("booting"); placeTag(); }, 600);
-    setTimeout(() => { intro.remove(); root.classList.add("no-intro"); }, 1100);
+    setTimeout(() => { intro.remove(); root.classList.add("no-intro"); }, 1300);
   };
   Promise.all([
     new Promise((r) => setTimeout(r, MIN)),

@@ -421,7 +421,7 @@ a { color: inherit; text-decoration: none; }
 .no-intro .intro { display: none; }
 .intro-mark {
   display: flex; align-items: baseline; line-height: 0.8; color: #fff;
-  animation: bootIn 0.9s var(--ap-ease) 0.15s both;
+  animation: bootIn 1.2s var(--ap-ease) 0.15s both;
 }
 .intro-alpha {
   font-family: "Noto Serif", Georgia, serif; font-style: italic; font-weight: 700;
@@ -435,10 +435,13 @@ a { color: inherit; text-decoration: none; }
   animation: bootIn 0.6s var(--ap-ease) 0.5s both;
 }
 .intro-bar i { display: block; height: 100%; width: 100%; background: #fff; border-radius: inherit; transform-origin: left; transform: scaleX(var(--p, 0)); transition: transform 0.35s linear; }
-@keyframes bootIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bootIn { from { opacity: 0; filter: blur(14px); transform: scale(1.04); } to { opacity: 1; filter: blur(0); transform: none; } }
 /* Exit: a quiet fade to the carousel */
-.intro.out { animation: bootOut 0.7s var(--ap-ease) forwards; pointer-events: none; }
-@keyframes bootOut { to { opacity: 0; } }
+/* Exit: logo and bar blur away, then the black fades to the carousel */
+.intro.out { animation: bootOut 0.9s var(--ap-ease) forwards; pointer-events: none; }
+.intro.out .intro-mark, .intro.out .intro-bar { animation: blurAway 0.7s var(--ap-ease) forwards; }
+@keyframes bootOut { 0%, 35% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes blurAway { to { opacity: 0; filter: blur(16px); transform: scale(0.97); } }
 
 /* Hold the home page's own entrance until the intro clears */
 .booting .top, .booting .cc a, .booting .cnav, .booting .chint, .booting .ctag { animation-play-state: paused; }
