@@ -229,6 +229,14 @@ a { color: inherit; text-decoration: none; }
 .cc-open { opacity: 0; transition: opacity 0.3s; font-weight: 600; }
 .cc.is-active .cc-open { opacity: 1; }
 
+/* Tagline above the carousel: the same gap above the front card as the nav
+   bar has below it (card reflection + 28px), never riding into the header */
+.ctag {
+  position: fixed; left: 0; right: 0; z-index: 30; pointer-events: none;
+  top: max(96px, calc(var(--cy) - var(--ch) * 0.76 - 28px)); transform: translateY(-100%);
+  text-align: center; font-size: clamp(15px, 1.6vw, 18px); font-weight: 300; letter-spacing: -0.01em; color: #b9b9b9;
+}
+
 /* Glass nav bar */
 .cnav {
   /* Just under the front card and its reflection */
@@ -320,6 +328,7 @@ a { color: inherit; text-decoration: none; }
 .home .top { animation: blurIn 1s ease 0.05s backwards; }
 .home .cc a { animation: cardIn 1.1s var(--ease) backwards; animation-delay: calc(0.2s + var(--delay, 0s)); }
 .home .cnav { animation: blurIn 1s ease 0.75s backwards; }
+.home .ctag { animation: blurIn 1s ease 0.6s backwards; }
 .home .chint { animation: blurIn 1s ease 1s backwards; }
 
 /* ---------- Reveal ---------- */
@@ -344,7 +353,7 @@ a { color: inherit; text-decoration: none; }
 @media (prefers-reduced-motion: reduce) {
   .reveal, .row, .next-title, .exp-fig, .mark span, .ticket, .dock a { transition: none; }
   .reveal { opacity: 1; transform: none; filter: none; }
-  .home .top, .home .cc a, .home .cnav, .home .chint { animation: none; }
+  .home .top, .home .cc a, .home .cnav, .home .chint, .home .ctag { animation: none; }
   .modal, .modal-card { transition: none; }
   .modal.show .modal-body > * { animation: none; }
   .st.run::before { animation: none; }

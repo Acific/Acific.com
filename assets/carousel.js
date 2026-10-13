@@ -1,6 +1,6 @@
 // Home: a 3D carousel of small poster cards with a glass nav bar.
 // Opening a card shows its page in a popup over the blurred carousel.
-import { mountFigures } from "./figures.js?v=20261013091149";
+import { mountFigures } from "./figures.js?v=20261013091411";
 
 const root = document.documentElement;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -276,8 +276,22 @@ cards.forEach((c, i) => {
   c.style.setProperty("--delay", `${Math.abs(d) * 0.12}s`);
 });
 
+// Tagline: mirror the nav bar's gap below the front card, measured on screen
+const tag = document.querySelector(".ctag");
+function placeTag() {
+  if (!tag) return;
+  const front = cards[wrap(active)].getBoundingClientRect();
+  const nav = document.querySelector(".cnav").getBoundingClientRect();
+  const gap = nav.top - front.bottom;
+  const headerBottom = document.querySelector(".top").getBoundingClientRect().bottom;
+  tag.style.top = `${Math.max(headerBottom + 16, front.top - gap - tag.offsetHeight)}px`;
+  tag.style.transform = "none";
+}
+addEventListener("resize", placeTag);
+
 updateNav();
 render();
+placeTag();
 requestAnimationFrame(loop);
 requestAnimationFrame(() => root.classList.add("in"));
 setTimeout(() => root.classList.add("in"), 120);
