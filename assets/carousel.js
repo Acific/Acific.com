@@ -1,6 +1,6 @@
 // Home: a 3D carousel of small poster cards with a glass nav bar.
 // Opening a card shows its page in a popup over the blurred carousel.
-import { mountFigures } from "./figures.js?v=20261013091553";
+import { mountFigures } from "./figures.js?v=20261013092033";
 
 const root = document.documentElement;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -46,8 +46,33 @@ function render() {
   });
 }
 
+// Each card's own line above the carousel: blur out the old, blur in the new
+const tagEl = document.querySelector(".ctag");
+let tagTimer = 0;
+function swapTag(text) {
+  if (!tagEl) return;
+  clearTimeout(tagTimer);
+  if (tagEl.textContent === text && !tagEl.getAnimations().length) return;
+  tagEl.getAnimations().forEach((a) => a.cancel());
+  if (reduceMotion) { tagEl.textContent = text; placeTag(); return; }
+  tagEl.animate(
+    [{ opacity: 1, filter: "blur(0)", transform: "translateY(0)" }, { opacity: 0, filter: "blur(8px)", transform: "translateY(-6px)" }],
+    { duration: 220, easing: "ease-in", fill: "forwards" });
+  // Swap on a timer rather than the animation's finish event, which never
+  // fires in a background tab
+  tagTimer = setTimeout(() => {
+    tagEl.getAnimations().forEach((a) => a.cancel());
+    tagEl.textContent = text;
+    placeTag();
+    tagEl.animate(
+      [{ opacity: 0, filter: "blur(10px)", transform: "translateY(8px)" }, { opacity: 1, filter: "blur(0)", transform: "translateY(0)" }],
+      { duration: 520, easing: "cubic-bezier(.2,.8,.2,1)" });
+  }, 220);
+}
+
 function updateNav() {
   const c = cards[wrap(active)];
+  swapTag(c.dataset.tag);
   navTitle.textContent = c.dataset.title;
   navSub.textContent = c.dataset.sub;
   navChip.textContent = c.dataset.chip;
@@ -277,8 +302,8 @@ cards.forEach((c, i) => {
 });
 
 // Tagline: mirror the nav bar's gap below the front card, measured on screen
-const tag = document.querySelector(".ctag");
 function placeTag() {
+  const tag = tagEl;
   if (!tag) return;
   const front = cards[wrap(active)].getBoundingClientRect();
   const nav = document.querySelector(".cnav").getBoundingClientRect();
