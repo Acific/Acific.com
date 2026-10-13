@@ -1,85 +1,52 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Acific — Experimental Software Lab</title>
   <meta name="description" content="Acific is an independent software lab. We prototype our own products and AI tools, and run commissioned experiments for teams who want something that doesn't exist yet.">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#b07a78">
   <meta property="og:title" content="Acific — Experimental Software Lab">
   <meta property="og:description" content="Acific is an independent software lab. We prototype our own products and AI tools, and run commissioned experiments for teams who want something that doesn't exist yet.">
   <meta property="og:type" content="website">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/style.css?v=20261013074348">
-  <script>document.documentElement.className = "js home";</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css?v=20261013080907">
 </head>
 <body>
-  <div class="loader" id="loader">
-    <span class="loader-note" id="loaderNote">Growing specimens</span>
-    <div class="gate">
-      <button class="serif" id="enterSound">Enter with sound</button>
-      <span class="gate-sep" aria-hidden="true">/</span>
-      <button class="serif" id="enterQuiet">Enter in silence</button>
-      <p class="gate-hint">Drag to orbit · Scroll to zoom · Click a specimen · F to reshape</p>
-    </div>
-    <span class="counter serif" id="loadCount" aria-hidden="true">000</span>
+  <div class="wall">
+    <article class="card" style="--band: #b07a78">
+      <header class="card-head">
+        <a class="mark" href="/" aria-label="Acific home">A<span>.</span></a>
+        <p class="meta">Experimental<br>Software Lab</p>
+        <p class="date" aria-label="Today"><span id="dateMon">&nbsp;</span><br><span id="dateDay">&nbsp;</span></p>
+      </header>
+
+      <h1 class="title reveal">Acific</h1>
+      <p class="by reveal">Experiments in software &amp; AI</p>
+      <figure class="fig reveal">
+        <svg data-figure="orbit" role="img" aria-label="A black body with a satellite inside a ring of circles; it turns toward your pointer." class="clickable"></svg>
+      </figure>
+      <p class="hint reveal">Move to steer · Click to fling</p>
+
+      <section class="rows reveal" aria-label="Sections">
+        <a class="row link" href="/experiments/"><span class="num">01</span><span class="row-title">Experiments</span><span class="row-text">Three in-house research tracks: AI tools, developer utilities, apps.</span></a>
+        <a class="row link" href="/commissions/"><span class="num">02</span><span class="row-title">Commissions</span><span class="row-text">Development, AI integration, design and consulting for your team.</span></a>
+        <a class="row link" href="/about/"><span class="num">03</span><span class="row-title">About</span><span class="row-text">An independent software lab. How we work, and how to reach us.</span></a>
+      </section>
+
+      <footer class="card-foot">
+        <a class="wordmark" href="/"><span>acific.</span>lab</a>
+        <nav aria-label="Main">
+        <a href="/experiments/">Experiments</a>
+        <a href="/commissions/">Commissions</a>
+        <a href="/about/">About</a>
+        </nav>
+      </footer>
+    </article>
   </div>
-
-  <header class="pill" aria-label="Main">
-    <a class="pill-brand" href="/">ACIFIC.LAB</a>
-    <a class="pill-item serif" href="/" aria-current="page"><span class="pl">Specimens</span><sup>1</sup></a>
-    <a class="pill-item serif" href="/experiments/"><span class="pl">Experiments</span><sup>2</sup></a>
-    <a class="pill-item serif" href="/commissions/"><span class="pl">Commissions</span><sup>3</sup></a>
-    <a class="pill-item serif" href="/about/"><span class="pl">About</span><sup>4</sup></a>
-  </header>
-
-  <button class="sound" id="sound" aria-pressed="false" aria-label="Toggle sound">
-    <span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-    <span class="sound-label">Sound off</span>
-  </button>
-
-  <h1 class="midline">
-    <span class="mid-l split">Acific</span>
-    <span class="mid-r serif split">Experimental Software Lab</span>
-  </h1>
-
-  <div class="stage" id="stage" role="img" aria-label="A slowly rotating cloud of generative drawings. Drag to orbit, click one to inspect it."></div>
-  <div class="cursor-label" id="cursorLabel" aria-hidden="true"></div>
-
-  <noscript>
-    <main class="page"><p class="lede serif">Acific is an independent software lab. We prototype our own products and AI tools, and run commissioned experiments for teams who want something that doesn't exist yet.</p>
-    <p><a href="/experiments/">Experiments</a> · <a href="/commissions/">Commissions</a> · <a href="/about/">About</a></p></main>
-  </noscript>
-
-  <div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-labelledby="vName" hidden>
-    <div class="viewer-art"><canvas id="viewerCanvas"></canvas></div>
-    <aside class="viewer-meta">
-      <p class="v-id serif" id="vId">Specimen 001</p>
-      <h2 id="vName">Specimen</h2>
-      <p class="v-note" id="vNote"></p>
-      <dl>
-        <dt>Seed</dt><dd id="vSeed">0</dd>
-        <dt>Variant</dt><dd id="vVariant">—</dd>
-        <dt>Mutations</dt><dd id="vMut">0</dd>
-      </dl>
-      <div class="v-actions">
-        <button id="vMutate">Mutate ↻</button>
-        <button id="vClose">Close ✕</button>
-      </div>
-    </aside>
-  </div>
-
-  <footer class="hud">
-    <div class="hud-l forms" id="forms" role="group" aria-label="Formation"><span class="forms-label">Form</span></div>
-    <span class="hud-c serif" id="hudCount" aria-hidden="true">000</span>
-    <span class="hud-r"><span id="clock">--:--</span> local</span>
-  </footer>
-
-  <div class="cur-ring" id="curRing" aria-hidden="true"><span class="cur-text cur-view">View</span><span class="cur-text cur-dragtxt">Drag</span></div>
-  <div class="cur-dot" id="curDot" aria-hidden="true"></div>
-  <script type="module" src="/assets/main.js?v=20261013074348"></script>
+  <script type="module" src="/assets/site.js?v=20261013080907"></script>
 </body>
 </html>

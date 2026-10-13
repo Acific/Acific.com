@@ -1,85 +1,67 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Tools — Experiment 001 — Acific</title>
+  <title>AI Tools — Acific</title>
   <meta name="description" content="AI should do real work, not demos.">
-  <meta name="theme-color" content="#ffffff">
-  <meta property="og:title" content="AI Tools — Experiment 001 — Acific">
+  <meta name="theme-color" content="#7d8fb3">
+  <meta property="og:title" content="AI Tools — Acific">
   <meta property="og:description" content="AI should do real work, not demos.">
   <meta property="og:type" content="website">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/style.css?v=20261013074348">
-  <script>document.documentElement.className = "js sub";</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css?v=20261013080907">
 </head>
 <body>
-  <header class="pill" aria-label="Main">
-    <a class="pill-brand" href="/">ACIFIC.LAB</a>
-    <a class="pill-item serif" href="/"><span class="pl">Specimens</span><sup>1</sup></a>
-    <a class="pill-item serif" href="/experiments/" aria-current="page"><span class="pl">Experiments</span><sup>2</sup></a>
-    <a class="pill-item serif" href="/commissions/"><span class="pl">Commissions</span><sup>3</sup></a>
-    <a class="pill-item serif" href="/about/"><span class="pl">About</span><sup>4</sup></a>
-  </header>
+  <div class="wall">
+    <article class="card" style="--band: #7d8fb3">
+      <header class="card-head">
+        <a class="mark" href="/" aria-label="Acific home">A<span>.</span></a>
+        <p class="meta">Experiment 001<br>Running</p>
+        <p class="date" aria-label="Today"><span id="dateMon">&nbsp;</span><br><span id="dateDay">&nbsp;</span></p>
+      </header>
 
-  <button class="sound" id="sound" aria-pressed="false" aria-label="Toggle sound">
-    <span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-    <span class="sound-label">Sound off</span>
-  </button>
-
-  <main class="page case">
-    <header class="case-head reveal">
-      <p class="kicker"><a href="/experiments/">Experiments</a> / 001</p>
-      <h1 class="serif">AI Tools</h1>
-      <dl class="case-meta">
-        <div><dt>Track</dt><dd>In-house</dd></div>
-        <div><dt>Field</dt><dd>AI · Automation</dd></div>
-        <div><dt>Status</dt><dd><span class="st run">Running</span></dd></div>
-        <div><dt>Specimen</dt><dd>Seed 41827</dd></div>
-      </dl>
-    </header>
-
-    <figure class="case-cover reveal"><canvas data-cover data-gen="0" data-seed="41827"></canvas></figure>
-
-    <section class="case-body">
-      <div class="reveal">
-        <p class="kicker">Hypothesis</p>
-        <p class="lede serif">AI should do real work, not demos. The most useful assistants will be the quiet ones: wired into the tools people already use, taking the boring, repetitive parts off their plate.</p>
-      </div>
-      <div class="reveal">
-        <p class="kicker">What we're exploring</p>
+      <h1 class="title reveal">AI Tools</h1>
+      <p class="by reveal">By Acific</p>
+      <figure class="fig reveal">
+        <svg data-figure="network" role="img" aria-label="AI Tools figure"></svg>
+      </figure>
+      <section class="sect reveal">
+        <p class="label">Hypothesis</p>
+        <p class="lede">AI should do real work, not demos. The most useful assistants will be the quiet ones: wired into the tools people already use, taking the boring, repetitive parts off their plate.</p>
+      </section>
+      <section class="sect reveal">
+        <p class="label">Exploring</p>
         <ul class="bullets">
-          <li>Assistants that work inside existing tools instead of beside them</li>
-          <li>Pipelines that turn messy, scattered data into something usable</li>
-          <li>Workflows that automate repetitive steps end to end</li>
+            <li>Assistants that work inside existing tools instead of beside them</li>
+            <li>Pipelines that turn messy, scattered data into something usable</li>
+            <li>Workflows that automate repetitive steps end to end</li>
         </ul>
-        <p class="kicker spaced">Status</p>
-        <p class="muted">In development. Nothing public yet. If you'd like early access or want to collaborate, <a class="u" href="/about/#contact">get in touch</a>.</p>
-      </div>
-    </section>
+      </section>
+      <section class="sect reveal">
+        <p class="label">Details</p>
+        <dl class="facts">
+          <div><dt>Track</dt><dd>In-house</dd></div>
+          <div><dt>Field</dt><dd>AI · Automation</dd></div>
+          <div><dt>Status</dt><dd><span class="st run">Running</span></dd></div>
+        </dl>
+        <p class="muted">In development. Nothing public yet. Want early access or to collaborate? <a class="u" href="/about/#contact">Get in touch</a>.</p>
+      </section>
+      <a class="next link reveal" href="/experiments/developer-utilities/"><span class="label">Next experiment</span><span class="next-title">Developer Utilities →</span></a>
 
-    <section class="studies">
-        <figure class="study reveal"><canvas data-cover data-gen="10" data-seed="5521"></canvas><figcaption>Study 01</figcaption></figure>
-        <figure class="study reveal"><canvas data-cover data-gen="2" data-seed="90311"></canvas><figcaption>Study 02</figcaption></figure>
-    </section>
-
-    <a class="next reveal" href="/experiments/developer-utilities/">
-      <span class="kicker">Next experiment</span>
-      <span class="next-title serif">Developer Utilities <span aria-hidden="true">→</span></span>
-    </a>
-  </main>
-
-  <footer class="hud">
-    <span class="hud-l">Experiment 001 · Running</span>
-    <span class="hud-c serif" id="hudCount" aria-hidden="true">001</span>
-    <span class="hud-r"><span id="clock">--:--</span> local</span>
-  </footer>
-
-  <div class="cur-ring" id="curRing" aria-hidden="true"><span class="cur-text cur-view">View</span><span class="cur-text cur-dragtxt">Drag</span></div>
-  <div class="cur-dot" id="curDot" aria-hidden="true"></div>
-  <script type="module" src="/assets/site.js?v=20261013074348"></script>
+      <footer class="card-foot">
+        <a class="wordmark" href="/"><span>acific.</span>lab</a>
+        <nav aria-label="Main">
+        <a href="/experiments/" aria-current="page">Experiments</a>
+        <a href="/commissions/">Commissions</a>
+        <a href="/about/">About</a>
+        </nav>
+      </footer>
+    </article>
+  </div>
+  <script type="module" src="/assets/site.js?v=20261013080907"></script>
 </body>
 </html>

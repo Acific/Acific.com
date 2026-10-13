@@ -1,85 +1,67 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Apps — Experiment 003 — Acific</title>
+  <title>Apps — Acific</title>
   <meta name="description" content="One thing, done exceptionally well, beats ten features done fine.">
-  <meta name="theme-color" content="#ffffff">
-  <meta property="og:title" content="Apps — Experiment 003 — Acific">
+  <meta name="theme-color" content="#c4704f">
+  <meta property="og:title" content="Apps — Acific">
   <meta property="og:description" content="One thing, done exceptionally well, beats ten features done fine.">
   <meta property="og:type" content="website">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/style.css?v=20261013074348">
-  <script>document.documentElement.className = "js sub";</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css?v=20261013080907">
 </head>
 <body>
-  <header class="pill" aria-label="Main">
-    <a class="pill-brand" href="/">ACIFIC.LAB</a>
-    <a class="pill-item serif" href="/"><span class="pl">Specimens</span><sup>1</sup></a>
-    <a class="pill-item serif" href="/experiments/" aria-current="page"><span class="pl">Experiments</span><sup>2</sup></a>
-    <a class="pill-item serif" href="/commissions/"><span class="pl">Commissions</span><sup>3</sup></a>
-    <a class="pill-item serif" href="/about/"><span class="pl">About</span><sup>4</sup></a>
-  </header>
+  <div class="wall">
+    <article class="card" style="--band: #c4704f">
+      <header class="card-head">
+        <a class="mark" href="/" aria-label="Acific home">A<span>.</span></a>
+        <p class="meta">Experiment 003<br>Queued</p>
+        <p class="date" aria-label="Today"><span id="dateMon">&nbsp;</span><br><span id="dateDay">&nbsp;</span></p>
+      </header>
 
-  <button class="sound" id="sound" aria-pressed="false" aria-label="Toggle sound">
-    <span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-    <span class="sound-label">Sound off</span>
-  </button>
-
-  <main class="page case">
-    <header class="case-head reveal">
-      <p class="kicker"><a href="/experiments/">Experiments</a> / 003</p>
-      <h1 class="serif">Apps</h1>
-      <dl class="case-meta">
-        <div><dt>Track</dt><dd>In-house</dd></div>
-        <div><dt>Field</dt><dd>Web · Mobile</dd></div>
-        <div><dt>Status</dt><dd><span class="st">Queued</span></dd></div>
-        <div><dt>Specimen</dt><dd>Seed 20514</dd></div>
-      </dl>
-    </header>
-
-    <figure class="case-cover reveal"><canvas data-cover data-gen="8" data-seed="20514"></canvas></figure>
-
-    <section class="case-body">
-      <div class="reveal">
-        <p class="kicker">Hypothesis</p>
-        <p class="lede serif">One thing, done exceptionally well, beats ten features done fine. Web and mobile apps built around a single idea, with care spent on how they feel rather than how much they do.</p>
-      </div>
-      <div class="reveal">
-        <p class="kicker">What we're exploring</p>
+      <h1 class="title reveal">Apps</h1>
+      <p class="by reveal">By Acific</p>
+      <figure class="fig reveal">
+        <svg data-figure="funnel" role="img" aria-label="Apps figure"></svg>
+      </figure>
+      <section class="sect reveal">
+        <p class="label">Hypothesis</p>
+        <p class="lede">One thing, done exceptionally well, beats ten features done fine. Web and mobile apps built around a single idea, with care spent on how they feel rather than how much they do.</p>
+      </section>
+      <section class="sect reveal">
+        <p class="label">Exploring</p>
         <ul class="bullets">
-          <li>Focused apps with one clear job</li>
-          <li>Interfaces that feel obvious the first time</li>
-          <li>Craft in the details: motion, type, response</li>
+            <li>Focused apps with one clear job</li>
+            <li>Interfaces that feel obvious the first time</li>
+            <li>Craft in the details: motion, type, response</li>
         </ul>
-        <p class="kicker spaced">Status</p>
-        <p class="muted">Queued behind the running experiments. If you'd like early access or want to collaborate, <a class="u" href="/about/#contact">get in touch</a>.</p>
-      </div>
-    </section>
+      </section>
+      <section class="sect reveal">
+        <p class="label">Details</p>
+        <dl class="facts">
+          <div><dt>Track</dt><dd>In-house</dd></div>
+          <div><dt>Field</dt><dd>Web · Mobile</dd></div>
+          <div><dt>Status</dt><dd><span class="st">Queued</span></dd></div>
+        </dl>
+        <p class="muted">Queued behind the running experiments. Want early access or to collaborate? <a class="u" href="/about/#contact">Get in touch</a>.</p>
+      </section>
+      <a class="next link reveal" href="/experiments/ai-tools/"><span class="label">Next experiment</span><span class="next-title">AI Tools →</span></a>
 
-    <section class="studies">
-        <figure class="study reveal"><canvas data-cover data-gen="5" data-seed="1180"></canvas><figcaption>Study 01</figcaption></figure>
-        <figure class="study reveal"><canvas data-cover data-gen="7" data-seed="47002"></canvas><figcaption>Study 02</figcaption></figure>
-    </section>
-
-    <a class="next reveal" href="/experiments/ai-tools/">
-      <span class="kicker">Next experiment</span>
-      <span class="next-title serif">AI Tools <span aria-hidden="true">→</span></span>
-    </a>
-  </main>
-
-  <footer class="hud">
-    <span class="hud-l">Experiment 003 · Queued</span>
-    <span class="hud-c serif" id="hudCount" aria-hidden="true">003</span>
-    <span class="hud-r"><span id="clock">--:--</span> local</span>
-  </footer>
-
-  <div class="cur-ring" id="curRing" aria-hidden="true"><span class="cur-text cur-view">View</span><span class="cur-text cur-dragtxt">Drag</span></div>
-  <div class="cur-dot" id="curDot" aria-hidden="true"></div>
-  <script type="module" src="/assets/site.js?v=20261013074348"></script>
+      <footer class="card-foot">
+        <a class="wordmark" href="/"><span>acific.</span>lab</a>
+        <nav aria-label="Main">
+        <a href="/experiments/" aria-current="page">Experiments</a>
+        <a href="/commissions/">Commissions</a>
+        <a href="/about/">About</a>
+        </nav>
+      </footer>
+    </article>
+  </div>
+  <script type="module" src="/assets/site.js?v=20261013080907"></script>
 </body>
 </html>
