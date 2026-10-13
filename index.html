@@ -1,60 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="home">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Acific — Experimental Software Lab</title>
   <meta name="description" content="Acific is an independent software lab. We prototype our own products and AI tools, and run commissioned experiments for teams who want something that doesn't exist yet.">
-  <meta name="theme-color" content="#b07a78">
+  <meta name="theme-color" content="#0e0e0f">
   <meta property="og:title" content="Acific — Experimental Software Lab">
-  <meta property="og:description" content="Acific is an independent software lab. We prototype our own products and AI tools, and run commissioned experiments for teams who want something that doesn't exist yet.">
+  <meta property="og:description" content="Experiments in software and AI.">
   <meta property="og:type" content="website">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/style.css?v=20261013081747">
+  <link rel="stylesheet" href="/assets/style.css?v=20261013082551">
 </head>
 <body>
-  <div class="wall">
-    <article class="card" style="--band: #b07a78">
-      <header class="card-head">
-        <a class="mark" href="/" aria-label="Acific home">A<span>.</span></a>
-        <p class="meta">Experimental<br>Software Lab</p>
-        <p class="date" aria-label="Today"><span id="dateMon">&nbsp;</span><br><span id="dateDay">&nbsp;</span></p>
-      </header>
+  <header class="top">
+    <a class="top-mark" href="/" aria-label="Acific home">A<span>.</span></a>
+    <h1 class="top-title"><span>acific.</span>lab <em>Experiments in software &amp; AI</em></h1>
+    <p class="top-date"><span id="dateMon">&nbsp;</span> <span id="dateDay">&nbsp;</span></p>
+  </header>
 
-      <h1 class="title reveal">Acific</h1>
-      <p class="by reveal">Experiments in software &amp; AI</p>
-      <figure class="fig reveal">
-        <svg data-figure="orbit" role="img" aria-label="A black body with a satellite inside a ring of circles; it turns toward your pointer." class="clickable"></svg>
-      </figure>
-      <p class="hint reveal">Move to steer · Click to fling</p>
+  <main>
+    <section class="stage" id="stage" aria-roledescription="carousel" aria-label="Acific pages">
+      <article class="cc" style="--band: #b07a78" data-title="Acific" data-sub="Independent software lab" data-chip="Lab" data-href="/experiments/" aria-roledescription="slide" aria-label="1 of 7: Acific">
+        <a href="/experiments/">
+          <span class="cc-head"><b>A.</b><span class="cc-meta">Experimental<br>Software Lab</span><span class="cc-num">01/07</span></span>
+          <span class="cc-title">Acific</span>
+          <span class="cc-by">Experiments in software &amp; AI</span>
+          <span class="cc-fig"><svg data-figure="orbit" role="img" aria-label="Acific figure" data-follow="off"></svg></span>
+          <span class="cc-foot"><span><i>acific.</i>lab</span><span class="cc-open">Open ↗</span></span>
+        </a>
+      </article>
+      <article class="cc" style="--band: #7d8fb3" data-title="AI Tools" data-sub="AI that does real work" data-chip="Running" data-href="/experiments/ai-tools/" aria-roledescription="slide" aria-label="2 of 7: AI Tools">
+        <a href="/experiments/ai-tools/">
+          <span class="cc-head"><b>A.</b><span class="cc-meta">Experiment 001<br>Running</span><span class="cc-num">02/07</span></span>
+          <span class="cc-title">AI Tools</span>
+          <span class="cc-by">By Acific</span>
+          <span class="cc-fig"><svg data-figure="network" role="img" aria-label="AI Tools figure" data-follow="off"></svg></span>
+          <span class="cc-foot"><span><i>acific.</i>lab</span><span class="cc-open">Open ↗</span></span>
+        </a>
+      </article>
+      <article class="cc" style="--band: #a8a548" data-title="Developer Utilities" data-sub="Small, sharp tools" data-chip="Running" data-href="/experiments/developer-utilities/" aria-roledescription="slide" aria-label="3 of 7: Developer Utilities">
+        <a href="/experiments/developer-utilities/">
+          <span class="cc-head"><b>A.</b><span class="cc-meta">Experiment 002<br>Running</span><span class="cc-num">03/07</span></span>
+          <span class="cc-title">Developer Utilities</span>
+          <span class="cc-by">By Acific</span>
+          <span class="cc-fig"><svg data-figure="bars" role="img" aria-label="Developer Utilities figure" data-follow="off"></svg></span>
+          <span class="cc-foot"><span><i>acific.</i>lab</span><span class="cc-open">Open ↗</span></span>
+        </a>
+      </article>
+      <article class="cc" style="--band: #c4704f" data-title="Apps" data-sub="One thing, done well" data-chip="Queued" data-href="/experiments/apps/" aria-roledescription="slide" aria-label="4 of 7: Apps">
+        <a href="/experiments/apps/">
+          <span class="cc-head"><b>A.</b><span class="cc-meta">Experiment 003<br>Queued</span><span class="cc-num">04/07</span></span>
+          <span class="cc-title">Apps</span>
+          <span class="cc-by">By Acific</span>
+          <span class="cc-fig"><svg data-figure="funnel" role="img" aria-label="Apps figure" data-follow="off"></svg></span>
+          <span class="cc-foot"><span><i>acific.</i>lab</span><span class="cc-open">Open ↗</span></span>
+        </a>
+      </article>
+      <article class="cc" style="--band: #6f9a8d" data-title="Commissions" data-sub="Development, AI, design" data-chip="Open" data-href="/commissions/" aria-roledescription="slide" aria-label="5 of 7: Commissions">
+        <a href="/commissions/">
+          <span class="cc-head"><b>A.</b><span class="cc-meta">Commissions<br>For you</span><span class="cc-num">05/07</span></span>
+          <span class="cc-title">Commissions</span>
+          <span class="cc-by">Built for you</span>
+          <span class="cc-fig"><svg data-figure="grid" role="img" aria-label="Commissions figure" data-follow="off"></svg></span>
+          <span class="cc-foot"><span><i>acific.</i>lab</span><span class="cc-open">Open ↗</span></span>
+        </a>
+      </article>
+      <article class="cc" style="--band: #e0c24f" data-title="Figures" data-sub="Interactive figures" data-chip="9 live" data-href="/figures/" aria-roledescription="slide" aria-label="6 of 7: Figures">
+        <a href="/figures/">
+          <span class="cc-head"><b>A.</b><span class="cc-meta">Figures<br>Nine studies</span><span class="cc-num">06/07</span></span>
+          <span class="cc-title">Figures</span>
+          <span class="cc-by">Small experiments in motion</span>
+          <span class="cc-fig"><svg data-figure="matrix" role="img" aria-label="Figures figure" data-follow="off"></svg></span>
+          <span class="cc-foot"><span><i>acific.</i>lab</span><span class="cc-open">Open ↗</span></span>
+        </a>
+      </article>
+      <article class="cc" style="--band: #1f1f1f" data-title="About" data-sub="How we work" data-chip="Contact" data-href="/about/" aria-roledescription="slide" aria-label="7 of 7: About">
+        <a href="/about/">
+          <span class="cc-head"><b>A.</b><span class="cc-meta">About<br>Contact</span><span class="cc-num">07/07</span></span>
+          <span class="cc-title">About</span>
+          <span class="cc-by">An independent software lab</span>
+          <span class="cc-fig"><svg data-figure="pair" role="img" aria-label="About figure" data-follow="off"></svg></span>
+          <span class="cc-foot"><span><i>acific.</i>lab</span><span class="cc-open">Open ↗</span></span>
+        </a>
+      </article>
+    </section>
 
-      <section class="rows reveal" aria-label="Sections">
-        <a class="row link" href="/experiments/"><span class="num">01</span><span class="row-title">Experiments</span><span class="row-text">Three in-house research tracks: AI tools, developer utilities, apps.</span></a>
-        <a class="row link" href="/commissions/"><span class="num">02</span><span class="row-title">Commissions</span><span class="row-text">Development, AI integration, design and consulting for your team.</span></a>
-        <a class="row link" href="/about/"><span class="num">03</span><span class="row-title">About</span><span class="row-text">An independent software lab. How we work, and how to reach us.</span></a>
-      </section>
-
-      <footer class="card-foot">
-        <a class="wordmark" href="/"><span>acific.</span>lab</a>
-        <nav aria-label="Main">
-        <a href="/experiments/">Experiments</a>
-        <a href="/commissions/">Commissions</a>
-        <a href="/about/">About</a>
-        <a href="/figures/">Figures</a>
-        </nav>
-      </footer>
-    </article>
-  </div>
-  <nav class="dock" aria-label="Pages">
-    <a class="dock-home" aria-current="page" href="/" aria-label="Home">A.</a>
-    <a class="dock-card" href="/experiments/" style="--band: #e8a13c"><b>A.</b><span>Experiments</span></a>
-    <a class="dock-card" href="/commissions/" style="--band: #6f9a8d"><b>A.</b><span>Commissions</span></a>
-    <a class="dock-card" href="/about/" style="--band: #1f1f1f"><b>A.</b><span>About</span></a>
-    <a class="dock-card" href="/figures/" style="--band: #e0c24f"><b>A.</b><span>Figures</span></a>
-  </nav>
-  <script type="module" src="/assets/site.js?v=20261013081747"></script>
+    <nav class="cnav" aria-label="Carousel controls">
+      <button class="cbtn" id="prev" aria-label="Previous">‹</button>
+      <button class="cbtn" id="play" aria-label="Play" aria-pressed="false"><span class="i-play">▶</span><span class="i-pause">❚❚</span></button>
+      <span class="cnav-now" aria-live="polite">
+        <span class="cnav-thumb" id="navThumb"><b>A.</b></span>
+        <span class="cnav-text"><span class="cnav-title"><span id="navTitle">Acific</span><span class="chip" id="navChip">Lab</span></span><span class="cnav-sub" id="navSub"></span></span>
+      </span>
+      <a class="cbtn open" id="navOpen" href="/experiments/" aria-label="Open">↗</a>
+      <button class="cbtn" id="next" aria-label="Next">›</button>
+    </nav>
+    <p class="chint">Drag · Scroll · ← → keys · Click the front card to open</p>
+  </main>
+  <script type="module" src="/assets/site.js?v=20261013082551"></script>
+  <script type="module" src="/assets/carousel.js?v=20261013082551"></script>
 </body>
 </html>
