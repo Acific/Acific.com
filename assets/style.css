@@ -34,6 +34,13 @@ a { color: inherit; text-decoration: none; }
 .u { border-bottom: 1px solid var(--faint); transition: border-color 0.2s; }
 .u:hover { border-color: var(--ink); }
 
+/* ---------- Logo: the alpha (α), sized by the font-size of wherever it sits ---------- */
+.alpha {
+  display: inline-block; height: 0.82em; aspect-ratio: 653 / 556; vertical-align: -0.04em;
+  background: url("/assets/logo.svg?v=2") left center / contain no-repeat;
+}
+.mark .alpha, .top-mark .alpha { height: 0.9em; }
+
 /* ---------- Color band: a slim rounded bar inset inside each card, so the
    card's rounded outline stays whole ---------- */
 .card, .modal-card, .cc a, .ticket, .exp-fig, .dock-card, .cnav-thumb { position: relative; }
@@ -75,8 +82,8 @@ a { color: inherit; text-decoration: none; }
   font-weight: 800; font-size: clamp(46px, 7vw, 60px); line-height: 0.8; letter-spacing: -0.04em;
   display: inline-block; transition: transform 0.4s var(--ease);
 }
-.mark span { display: inline-block; transition: transform 0.5s var(--ease); }
-.mark:hover span { transform: translateX(6px); }
+.mark .alpha { transition: transform 0.5s var(--ease); }
+.mark:hover .alpha { transform: rotate(-8deg); }
 .meta { font-size: 17px; line-height: 1.05; font-weight: 300; }
 
 .title {
