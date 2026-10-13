@@ -5,18 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Acific — Experimental Software Lab</title>
   <meta name="description" content="Acific is an independent software lab. We prototype our own products and AI tools, and run commissioned experiments for teams who want something that doesn't exist yet.">
-  <meta name="theme-color" content="#f6f6f3">
+  <meta name="theme-color" content="#ffffff">
   <meta property="og:title" content="Acific — Experimental Software Lab">
-  <meta property="og:description" content="We run experiments in software and AI. Some of them ship.">
+  <meta property="og:description" content="Acific is an independent software lab. We prototype our own products and AI tools, and run commissioned experiments for teams who want something that doesn't exist yet.">
   <meta property="og:type" content="website">
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css">
-  <script>document.documentElement.className = "js";</script>
+  <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script>document.documentElement.className = "js home";</script>
 </head>
-<body data-view="specimens">
+<body>
   <div class="loader" id="loader">
     <span class="loader-note" id="loaderNote">Growing specimens</span>
     <div class="gate">
@@ -28,11 +28,12 @@
     <span class="counter serif" id="loadCount" aria-hidden="true">000</span>
   </div>
 
-  <header class="pill" role="navigation" aria-label="Views">
-    <a class="pill-brand" href="#" data-view="specimens">ACIFIC.LAB</a>
-    <button class="pill-item serif" data-view="specimens" aria-current="true"><span class="pl">Specimens</span><sup>1</sup></button>
-    <button class="pill-item serif" data-view="index"><span class="pl">Index</span><sup>2</sup></button>
-    <button class="pill-item serif" data-view="contact"><span class="pl">Contact</span><sup>3</sup></button>
+  <header class="pill" aria-label="Main">
+    <a class="pill-brand" href="/">ACIFIC.LAB</a>
+    <a class="pill-item serif" href="/" aria-current="page"><span class="pl">Specimens</span><sup>1</sup></a>
+    <a class="pill-item serif" href="/experiments/"><span class="pl">Experiments</span><sup>2</sup></a>
+    <a class="pill-item serif" href="/commissions/"><span class="pl">Commissions</span><sup>3</sup></a>
+    <a class="pill-item serif" href="/about/"><span class="pl">About</span><sup>4</sup></a>
   </header>
 
   <button class="sound" id="sound" aria-pressed="false" aria-label="Toggle sound">
@@ -47,78 +48,16 @@
 
   <div class="stage" id="stage" role="img" aria-label="A slowly rotating cloud of generative drawings. Drag to orbit, click one to inspect it."></div>
   <div class="cursor-label" id="cursorLabel" aria-hidden="true"></div>
-  <div class="cur-ring" id="curRing" aria-hidden="true"><span class="cur-text cur-view">View</span><span class="cur-text cur-dragtxt">Drag</span></div>
-  <div class="cur-dot" id="curDot" aria-hidden="true"></div>
-  <div class="peek" id="peek" aria-hidden="true"><canvas></canvas></div>
 
-  <footer class="hud">
-    <div class="hud-l forms" id="forms" role="group" aria-label="Formation"><span class="forms-label">Form</span></div>
-    <span class="hud-c serif" id="hudCount" aria-hidden="true">000</span>
-    <span class="hud-r"><span id="clock">--:--</span> local</span>
-  </footer>
-
-  <main>
-    <section class="panel" id="panel-index" data-panel="index" aria-label="Index">
-      <div class="panel-inner index-grid">
-        <div class="col col-about">
-          <p class="kicker">About</p>
-          <p class="big serif">Acific is an independent software lab. We prototype our own products and AI tools, and run commissioned experiments for teams who want something that doesn't exist yet.</p>
-          <p class="small">The specimens floating behind this page are generated live in your browser. Each one is a small experiment with its own seed. Click one and mutate it.</p>
-        </div>
-
-        <div class="col">
-          <p class="kicker">Experiments<sup>in-house</sup></p>
-          <ol class="list">
-            <li data-gen="0"><span class="num">001</span><span class="title">AI Tools</span><span class="st run">Running</span>
-              <p>AI that does real work, not demos. Assistants, data pipelines and workflows that quietly automate the boring parts.</p></li>
-            <li data-gen="3"><span class="num">002</span><span class="title">Developer Utilities</span><span class="st run">Running</span>
-              <p>Small, sharp tools that remove friction from building and shipping software.</p></li>
-            <li data-gen="8"><span class="num">003</span><span class="title">Apps</span><span class="st">Queued</span>
-              <p>Web and mobile apps built around one thing, done exceptionally well.</p></li>
-          </ol>
-        </div>
-
-        <div class="col">
-          <p class="kicker">Commissions<sup>for you</sup></p>
-          <ol class="list">
-            <li data-gen="9"><span class="num">C/1</span><span class="title">Web &amp; App Development</span>
-              <p>Websites, web apps and mobile apps, from rough prototype to production.</p></li>
-            <li data-gen="6"><span class="num">C/2</span><span class="title">AI Integration</span>
-              <p>LLMs and automation wired into your product or operations. Measured wins, no hype.</p></li>
-            <li data-gen="5"><span class="num">C/3</span><span class="title">Product Design</span>
-              <p>UX and interface design that makes a product feel obvious and alive.</p></li>
-            <li data-gen="2"><span class="num">C/4</span><span class="title">Technical Consulting</span>
-              <p>Architecture, code review and strategy, so your team makes the right calls early.</p></li>
-          </ol>
-        </div>
-
-        <div class="col">
-          <p class="kicker">Protocol</p>
-          <ol class="list protocol">
-            <li data-gen="7"><span class="num">01</span><span class="title serif">Observe</span><p>Goals, users, constraints. Define what success looks like.</p></li>
-            <li data-gen="1"><span class="num">02</span><span class="title serif">Hypothesize</span><p>Architecture and experience, designed before production code.</p></li>
-            <li data-gen="10"><span class="num">03</span><span class="title serif">Iterate</span><p>Short cycles, frequent demos. Watch the specimen evolve weekly.</p></li>
-            <li data-gen="11"><span class="num">04</span><span class="title serif">Release</span><p>Ship, measure, keep improving. We stay in the lab after launch.</p></li>
-          </ol>
-        </div>
-      </div>
-    </section>
-
-    <section class="panel" id="panel-contact" data-panel="contact" aria-label="Contact">
-      <div class="panel-inner contact">
-        <p class="kicker">Open a channel</p>
-        <h2 class="serif">Got a <em>hypothesis?</em></h2>
-        <a class="mail" href="mailto:acificlabs@gmail.com">acificlabs@gmail.com <span aria-hidden="true">↗</span></a>
-        <p class="small">Tell us what you're trying to build. We reply within a couple of business days.</p>
-        <p class="small links"><a href="https://github.com/Acific" target="_blank" rel="noopener">GitHub ↗</a></p>
-      </div>
-    </section>
-  </main>
+  <noscript>
+    <main class="page"><p class="lede serif">Acific is an independent software lab. We prototype our own products and AI tools, and run commissioned experiments for teams who want something that doesn't exist yet.</p>
+    <p><a href="/experiments/">Experiments</a> · <a href="/commissions/">Commissions</a> · <a href="/about/">About</a></p></main>
+  </noscript>
 
   <div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-labelledby="vName" hidden>
     <div class="viewer-art"><canvas id="viewerCanvas"></canvas></div>
     <aside class="viewer-meta">
-      <p class="v-id serif" id="vId">S-01</p>
+      <p class="v-id serif" id="vId">Specimen 001</p>
       <h2 id="vName">Specimen</h2>
       <p class="v-note" id="vNote"></p>
       <dl>
@@ -133,6 +72,14 @@
     </aside>
   </div>
 
-  <script type="module" src="assets/main.js"></script>
+  <footer class="hud">
+    <div class="hud-l forms" id="forms" role="group" aria-label="Formation"><span class="forms-label">Form</span></div>
+    <span class="hud-c serif" id="hudCount" aria-hidden="true">000</span>
+    <span class="hud-r"><span id="clock">--:--</span> local</span>
+  </footer>
+
+  <div class="cur-ring" id="curRing" aria-hidden="true"><span class="cur-text cur-view">View</span><span class="cur-text cur-dragtxt">Drag</span></div>
+  <div class="cur-dot" id="curDot" aria-hidden="true"></div>
+  <script type="module" src="/assets/main.js"></script>
 </body>
 </html>

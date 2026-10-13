@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experiments — Acific</title>
+  <meta name="description" content="Acific's in-house experiments: AI tools, developer utilities and apps.">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:title" content="Experiments — Acific">
+  <meta property="og:description" content="Acific's in-house experiments: AI tools, developer utilities and apps.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script>document.documentElement.className = "js sub";</script>
+</head>
+<body>
+  <header class="pill" aria-label="Main">
+    <a class="pill-brand" href="/">ACIFIC.LAB</a>
+    <a class="pill-item serif" href="/"><span class="pl">Specimens</span><sup>1</sup></a>
+    <a class="pill-item serif" href="/experiments/" aria-current="page"><span class="pl">Experiments</span><sup>2</sup></a>
+    <a class="pill-item serif" href="/commissions/"><span class="pl">Commissions</span><sup>3</sup></a>
+    <a class="pill-item serif" href="/about/"><span class="pl">About</span><sup>4</sup></a>
+  </header>
+
+  <button class="sound" id="sound" aria-pressed="false" aria-label="Toggle sound">
+    <span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <span class="sound-label">Sound off</span>
+  </button>
+
+  <main class="page page-strip">
+    <header class="page-head reveal">
+      <p class="kicker">Experiments<sup>03</sup></p>
+      <h1 class="serif">In-house research tracks. Each one started as a question we couldn't stop asking.</h1>
+    </header>
+    <div class="strip hscroll" tabindex="0" aria-label="Experiments">
+      <a class="card reveal" href="/experiments/ai-tools/" data-scramble-host>
+        <canvas class="card-cover" data-cover data-gen="0" data-seed="41827"></canvas>
+        <span class="card-meta"><span class="num">001</span><span class="title">AI Tools</span><span class="st run">Running</span></span>
+        <span class="card-line serif">AI that does real work, not demos.</span>
+      </a>
+      <a class="card reveal" href="/experiments/developer-utilities/" data-scramble-host>
+        <canvas class="card-cover" data-cover data-gen="3" data-seed="7730"></canvas>
+        <span class="card-meta"><span class="num">002</span><span class="title">Developer Utilities</span><span class="st run">Running</span></span>
+        <span class="card-line serif">Small, sharp tools that remove friction.</span>
+      </a>
+      <a class="card reveal" href="/experiments/apps/" data-scramble-host>
+        <canvas class="card-cover" data-cover data-gen="8" data-seed="20514"></canvas>
+        <span class="card-meta"><span class="num">003</span><span class="title">Apps</span><span class="st">Queued</span></span>
+        <span class="card-line serif">One thing, done exceptionally well.</span>
+      </a>
+      <div class="card card-empty reveal" aria-hidden="true">
+        <span class="card-cover empty"><span class="serif">More in the lab</span></span>
+      </div>
+    </div>
+  </main>
+
+  <footer class="hud">
+    <span class="hud-l">Scroll to browse →</span>
+    <span class="hud-c serif" id="hudCount" aria-hidden="true">002</span>
+    <span class="hud-r"><span id="clock">--:--</span> local</span>
+  </footer>
+
+  <div class="cur-ring" id="curRing" aria-hidden="true"><span class="cur-text cur-view">View</span><span class="cur-text cur-dragtxt">Drag</span></div>
+  <div class="cur-dot" id="curDot" aria-hidden="true"></div>
+  <script type="module" src="/assets/site.js"></script>
+</body>
+</html>

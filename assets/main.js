@@ -1,164 +1,10 @@
 import { GENERATORS, renderSpecimen } from "./specimens.js";
+import { root, reduceMotion, $, pad3, scramble, sound, setSound, store } from "./site.js";
 
-const root = document.documentElement;
-const body = document.body;
-const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const finePointer = matchMedia("(pointer: fine)").matches;
-const $ = (id) => document.getElementById(id);
-const pad3 = (n) => String(n).padStart(3, "0");
 const small = () => innerWidth < 640;
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const TAU = Math.PI * 2;
-
-// ---------- Text effects ----------
-document.querySelectorAll(".split").forEach((el) => {
-  const text = el.textContent;
-  el.setAttribute("aria-label", text);
-  el.textContent = "";
-  for (const c of text) {
-    const s = document.createElement("span");
-    s.className = "ch";
-    s.setAttribute("aria-hidden", "true");
-    s.textContent = c;
-    s.style.transitionDelay = `${0.15 + Math.random() * 0.7}s`;
-    el.append(s);
-  }
-});
-
-// Characters flicker through glyphs before settling on the real text
-const GLYPHS = "▖▘▝▗▚▞▌▐░▒▓/\\|+*#%<>";
-const scrambling = new WeakMap();
-function scramble(el, text, dur = 420) {
-  if (reduceMotion) { el.textContent = text; return; }
-  cancelAnimationFrame(scrambling.get(el));
-  const start = performance.now();
-  const step = (now) => {
-    const p = Math.min(1, (now - start) / dur);
-    const n = Math.floor(p * text.length);
-    let out = text.slice(0, n);
-    for (let i = n; i < text.length; i++) out += text[i] === " " ? " " : GLYPHS[(Math.random() * GLYPHS.length) | 0];
-    el.textContent = out;
-    if (p < 1) scrambling.set(el, requestAnimationFrame(step));
-  };
-  scrambling.set(el, requestAnimationFrame(step));
-}
-document.querySelectorAll(".pill-item .pl").forEach((el) => {
-  const text = el.textContent;
-  el.closest("button").addEventListener("pointerenter", () => scramble(el, text, 300));
-});
-
-// ---------- Clock ----------
-const clock = $("clock");
-const tickClock = () => {
-  const d = new Date();
-  clock.textContent = `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
-};
-tickClock();
-setInterval(tickClock, 10000);
-
-// ---------- Sound (generated with Web Audio, only after the visitor opts in) ----------
-const sound = (() => {
-  let ctx, master, noise, on = false;
-  const scale = [220, 246.9, 293.7, 329.6, 392, 440, 493.9, 587.3];
-
-  const start = () => {
-    ctx = new AudioContext();
-    master = ctx.createGain();
-    master.gain.value = 0;
-    master.connect(ctx.destination);
-
-    // Low drone: detuned sines through a slowly breathing filter
-    const filter = ctx.createBiquadFilter();
-    filter.type = "lowpass"; filter.frequency.value = 420; filter.Q.value = 6;
-    const lfo = ctx.createOscillator(); lfo.frequency.value = 0.07;
-    const lfoGain = ctx.createGain(); lfoGain.gain.value = 260;
-    lfo.connect(lfoGain).connect(filter.frequency); lfo.start();
-    for (const [f, g] of [[55, 0.22], [82.6, 0.12], [110.4, 0.05]]) {
-      const o = ctx.createOscillator(); o.frequency.value = f;
-      const gn = ctx.createGain(); gn.gain.value = g;
-      o.connect(gn).connect(filter); o.start();
-    }
-    filter.connect(master);
-
-    noise = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
-    const d = noise.getChannelData(0);
-    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
-  };
-
-  const env = (g, peak, attack, release) => {
-    const t = ctx.currentTime;
-    g.gain.setValueAtTime(0, t);
-    g.gain.linearRampToValueAtTime(peak, t + attack);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + attack + release);
-    return t + attack + release + 0.05;
-  };
-
-  return {
-    get on() { return on; },
-    set(next) {
-      if (!ctx) start();
-      on = next;
-      if (on) ctx.resume();
-      master.gain.setTargetAtTime(on ? 0.5 : 0, ctx.currentTime, 0.4);
-      return on;
-    },
-    blip(i = 0) {
-      if (!on) return;
-      const o = ctx.createOscillator(); o.type = "triangle";
-      o.frequency.value = scale[Math.abs(i) % scale.length] * 2;
-      const g = ctx.createGain();
-      o.connect(g).connect(master); o.start(); o.stop(env(g, 0.06, 0.008, 0.35));
-    },
-    sweep() {
-      if (!on) return;
-      const t = ctx.currentTime;
-      const o = ctx.createOscillator(); o.type = "sawtooth";
-      o.frequency.setValueAtTime(90, t);
-      o.frequency.exponentialRampToValueAtTime(1400, t + 0.25);
-      const f = ctx.createBiquadFilter(); f.type = "bandpass"; f.Q.value = 8; f.frequency.value = 900;
-      const g = ctx.createGain();
-      o.connect(f).connect(g).connect(master); o.start(); o.stop(env(g, 0.05, 0.005, 0.3));
-    },
-    whoosh() {
-      if (!on) return;
-      const t = ctx.currentTime;
-      const src = ctx.createBufferSource(); src.buffer = noise;
-      const f = ctx.createBiquadFilter(); f.type = "bandpass"; f.Q.value = 1.5;
-      f.frequency.setValueAtTime(300, t);
-      f.frequency.exponentialRampToValueAtTime(2400, t + 0.6);
-      f.frequency.exponentialRampToValueAtTime(500, t + 1.3);
-      const g = ctx.createGain();
-      src.connect(f).connect(g).connect(master); src.start(); src.stop(env(g, 0.09, 0.4, 1));
-    },
-  };
-})();
-
-const soundBtn = $("sound");
-const setSound = (on) => {
-  sound.set(on);
-  soundBtn.setAttribute("aria-pressed", on);
-  scramble(soundBtn.querySelector(".sound-label"), on ? "Sound on" : "Sound off", 300);
-};
-soundBtn.addEventListener("click", () => setSound(!sound.on));
-
-// ---------- Views: Specimens / Index / Contact ----------
-const VIEWS = ["specimens", "index", "contact"];
-const setView = (view, push = true) => {
-  if (!VIEWS.includes(view)) view = "specimens";
-  body.dataset.view = view;
-  document.querySelectorAll(".pill-item").forEach((b) => {
-    if (b.dataset.view === view) b.setAttribute("aria-current", "true");
-    else b.removeAttribute("aria-current");
-  });
-  if (push) history.replaceState(null, "", view === "specimens" ? location.pathname : `#${view}`);
-  sound.blip(VIEWS.indexOf(view) + 2);
-};
-document.querySelectorAll("[data-view]").forEach((el) => {
-  if (el === body) return;
-  el.addEventListener("click", (e) => { e.preventDefault(); setView(el.dataset.view); });
-});
-setView(location.hash.slice(1), false);
 
 // ---------- Specimens ----------
 const stage = $("stage");
@@ -272,7 +118,7 @@ function setForm(name) {
   });
   if (name !== "Strip") strip.target = 0;
   formsEl.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.form === name));
-  body.dataset.form = name.toLowerCase();
+  document.body.dataset.form = name.toLowerCase();
   sound.whoosh();
 }
 const nextForm = (list = FORMS) => setForm(list[(list.indexOf(form) + 1) % list.length]);
@@ -322,22 +168,6 @@ const render = (now) => {
     if (b !== t.blur) { t.blur = b; t.el.style.filter = b ? `blur(${b}px)` : ""; }
   }
 };
-
-// ---------- Custom cursor ----------
-const cur = { x: innerWidth / 2, y: innerHeight / 2, rx: innerWidth / 2, ry: innerHeight / 2 };
-const dot = $("curDot"), ring = $("curRing");
-// Hidden until the pointer first moves, so it never sits stranded mid-screen
-if (finePointer) root.classList.add("custom-cursor", "c-out");
-addEventListener("pointermove", (e) => {
-  if (root.classList.contains("c-out")) { cur.rx = e.clientX; cur.ry = e.clientY; root.classList.remove("c-out"); }
-  cur.x = e.clientX; cur.y = e.clientY;
-  if (finePointer) dot.style.transform = `translate(${cur.x}px, ${cur.y}px)`;
-  const over = e.target.closest?.("a, button:not(.tile)");
-  root.classList.toggle("c-link", !!over);
-  root.classList.toggle("c-stage", !over && !!e.target.closest?.(".stage"));
-}, { passive: true });
-document.addEventListener("pointerleave", () => root.classList.add("c-out"));
-document.addEventListener("pointerenter", () => root.classList.remove("c-out"));
 
 // ---------- Interaction: orbit, zoom, scroll the strip ----------
 const AUTO = reduceMotion ? 0 : 0.0016;
@@ -490,21 +320,6 @@ $("vMutate").addEventListener("click", () => {
   sound.sweep();
 });
 
-// ---------- Index: hovering an entry grows a matching specimen at the cursor ----------
-const peek = $("peek");
-const peekCanvas = peek.querySelector("canvas");
-const pk = { x: 0, y: 0 };
-if (finePointer) {
-  document.querySelectorAll("[data-gen]").forEach((li) => {
-    li.addEventListener("pointerenter", () => {
-      renderSpecimen(peekCanvas, +li.dataset.gen, Math.floor(Math.random() * 1e6), 132, 168, Math.min(devicePixelRatio || 1, 2));
-      peek.classList.add("on");
-      sound.blip(+li.dataset.gen);
-    });
-    li.addEventListener("pointerleave", () => peek.classList.remove("on"));
-  });
-}
-
 // ---------- Keyboard ----------
 addEventListener("keydown", (e) => {
   if (!root.classList.contains("loaded")) {
@@ -513,14 +328,12 @@ addEventListener("keydown", (e) => {
   }
   if (e.key === "Escape") {
     if (current) closeViewer();
-    else if (body.dataset.view !== "specimens") setView("specimens");
     return;
   }
   if (current) {
     if (e.key.toLowerCase() === "m") $("vMutate").click();
     return;
   }
-  if (["1", "2", "3"].includes(e.key)) setView(VIEWS[+e.key - 1]);
   if (e.key.toLowerCase() === "f") nextForm();
   if (form === "Strip" && (e.key === "ArrowRight" || e.key === "ArrowLeft")) {
     strip.target = clamp(strip.target + (e.key === "ArrowRight" ? 1 : -1) * stripGap(), -stripLimit(), stripLimit());
@@ -553,19 +366,11 @@ const loop = (now) => {
   strip.x += (strip.target - strip.x) * 0.08;
 
   // Left alone for a while, the lab rearranges itself
-  if (entered && !reduceMotion && !current && body.dataset.view === "specimens" && form !== "Strip" &&
+  if (entered && !reduceMotion && !current && form !== "Strip" &&
       now - lastInput > 14000 && now - formChangedAt > 14000) {
     nextForm(AUTO_FORMS);
   }
 
-  if (finePointer) {
-    cur.rx += (cur.x - cur.rx) * 0.18;
-    cur.ry += (cur.y - cur.ry) * 0.18;
-    ring.style.transform = `translate(${cur.rx}px, ${cur.ry}px)`;
-    pk.x += (cur.x - pk.x) * 0.2;
-    pk.y += (cur.y - pk.y) * 0.2;
-    peek.style.transform = `translate(${pk.x + 48}px, ${pk.y - 84}px)`;
-  }
   render(now);
   requestAnimationFrame(loop);
 };
@@ -580,11 +385,13 @@ const grow = () => {
 };
 grow();
 
-const MIN_LOAD = reduceMotion ? 0 : 1600;
+const MIN_LOAD = reduceMotion || store.get("acific-entered") ? 0 : 1600;
 const loadStart = performance.now();
 const ready = () => {
   loadCount.textContent = "100";
   hudCount.textContent = pad3(tiles.length);
+  // Coming back to Home in the same visit: no gate, straight in
+  if (store.get("acific-entered")) { enter(false); return; }
   root.classList.add("ready");
   scramble($("loaderNote"), "Specimens ready", 400);
 };
@@ -600,6 +407,7 @@ else requestAnimationFrame(count);
 function enter(withSound) {
   if (entered) return;
   entered = true;
+  store.set("acific-entered", "1");
   if (withSound) setSound(true);
   root.classList.add("loaded");
   setTimeout(() => {

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commissions — Acific</title>
+  <meta name="description" content="Web and app development, AI integration, product design and technical consulting from Acific.">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:title" content="Commissions — Acific">
+  <meta property="og:description" content="Web and app development, AI integration, product design and technical consulting from Acific.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script>document.documentElement.className = "js sub";</script>
+</head>
+<body>
+  <header class="pill" aria-label="Main">
+    <a class="pill-brand" href="/">ACIFIC.LAB</a>
+    <a class="pill-item serif" href="/"><span class="pl">Specimens</span><sup>1</sup></a>
+    <a class="pill-item serif" href="/experiments/"><span class="pl">Experiments</span><sup>2</sup></a>
+    <a class="pill-item serif" href="/commissions/" aria-current="page"><span class="pl">Commissions</span><sup>3</sup></a>
+    <a class="pill-item serif" href="/about/"><span class="pl">About</span><sup>4</sup></a>
+  </header>
+
+  <button class="sound" id="sound" aria-pressed="false" aria-label="Toggle sound">
+    <span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <span class="sound-label">Sound off</span>
+  </button>
+
+  <main class="page">
+    <header class="page-head reveal">
+      <p class="kicker">Commissions<sup>for you</sup></p>
+      <h1 class="serif">Same bench, same standards, pointed at what you're building.</h1>
+    </header>
+    <ol class="rows">
+      <li class="row reveal" data-peek="9">
+        <span class="num">C/01</span>
+        <span class="row-title serif">Web & App Development</span>
+        <span class="row-text">Websites, web apps and mobile apps, from rough prototype to production launch.</span>
+      </li>
+      <li class="row reveal" data-peek="6">
+        <span class="num">C/02</span>
+        <span class="row-title serif">AI Integration</span>
+        <span class="row-text">LLMs and automation wired into your product or operations. Measured wins, no hype.</span>
+      </li>
+      <li class="row reveal" data-peek="5">
+        <span class="num">C/03</span>
+        <span class="row-title serif">Product Design</span>
+        <span class="row-text">UX and interface design that makes a product feel obvious, consistent and alive.</span>
+      </li>
+      <li class="row reveal" data-peek="2">
+        <span class="num">C/04</span>
+        <span class="row-title serif">Technical Consulting</span>
+        <span class="row-text">Architecture, code review and strategy, so your team makes the right calls early.</span>
+      </li>
+    </ol>
+    <a class="next reveal" href="/about/#contact">
+      <span class="kicker">Start a commission</span>
+      <span class="next-title serif">Open a channel <span aria-hidden="true">→</span></span>
+    </a>
+  </main>
+
+  <footer class="hud">
+    <span class="hud-l">Hover a line</span>
+    <span class="hud-c serif" id="hudCount" aria-hidden="true">003</span>
+    <span class="hud-r"><span id="clock">--:--</span> local</span>
+  </footer>
+
+  <div class="cur-ring" id="curRing" aria-hidden="true"><span class="cur-text cur-view">View</span><span class="cur-text cur-dragtxt">Drag</span></div>
+  <div class="cur-dot" id="curDot" aria-hidden="true"></div>
+  <script type="module" src="/assets/site.js"></script>
+</body>
+</html>

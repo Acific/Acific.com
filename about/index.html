@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Acific</title>
+  <meta name="description" content="About Acific, an independent experimental software lab, and how to get in touch.">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:title" content="About — Acific">
+  <meta property="og:description" content="About Acific, an independent experimental software lab, and how to get in touch.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script>document.documentElement.className = "js sub";</script>
+</head>
+<body>
+  <header class="pill" aria-label="Main">
+    <a class="pill-brand" href="/">ACIFIC.LAB</a>
+    <a class="pill-item serif" href="/"><span class="pl">Specimens</span><sup>1</sup></a>
+    <a class="pill-item serif" href="/experiments/"><span class="pl">Experiments</span><sup>2</sup></a>
+    <a class="pill-item serif" href="/commissions/"><span class="pl">Commissions</span><sup>3</sup></a>
+    <a class="pill-item serif" href="/about/" aria-current="page"><span class="pl">About</span><sup>4</sup></a>
+  </header>
+
+  <button class="sound" id="sound" aria-pressed="false" aria-label="Toggle sound">
+    <span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <span class="sound-label">Sound off</span>
+  </button>
+
+  <main class="page about">
+    <header class="page-head reveal">
+      <p class="kicker">About</p>
+      <h1 class="serif big-statement">Acific is an independent software lab. We prototype our own products and AI tools, and run commissioned experiments for teams who want something that doesn't exist yet.</h1>
+    </header>
+
+    <section class="about-grid">
+      <div class="reveal">
+        <p class="kicker">Protocol</p>
+        <ol class="list">
+        <li class="reveal" data-peek="7"><span class="num">01</span><span class="title serif">Observe</span><p>Goals, users, constraints. Define what success looks like.</p></li>
+        <li class="reveal" data-peek="1"><span class="num">02</span><span class="title serif">Hypothesize</span><p>Architecture and experience, designed before production code.</p></li>
+        <li class="reveal" data-peek="10"><span class="num">03</span><span class="title serif">Iterate</span><p>Short cycles, frequent demos. Watch the specimen evolve weekly.</p></li>
+        <li class="reveal" data-peek="11"><span class="num">04</span><span class="title serif">Release</span><p>Ship, measure, keep improving. We stay in the lab after launch.</p></li>
+        </ol>
+      </div>
+      <div class="reveal" id="contact">
+        <p class="kicker">Open a channel</p>
+        <p class="contact-title serif">Got a <em>hypothesis?</em></p>
+        <a class="mail" href="mailto:acificlabs@gmail.com">acificlabs@gmail.com <span aria-hidden="true">↗</span></a>
+        <p class="muted">Tell us what you're trying to build. We reply within a couple of business days.</p>
+        <p class="muted links"><a class="u" href="https://github.com/Acific" target="_blank" rel="noopener">GitHub ↗</a></p>
+      </div>
+      <div class="reveal">
+        <p class="kicker">Colophon</p>
+        <p class="muted">Set in Host Grotesk and Newsreader. Every image on this site is a specimen generated live in your browser from a seed — no two visits look the same.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="hud">
+    <span class="hud-l">acificlabs@gmail.com</span>
+    <span class="hud-c serif" id="hudCount" aria-hidden="true">004</span>
+    <span class="hud-r"><span id="clock">--:--</span> local</span>
+  </footer>
+
+  <div class="cur-ring" id="curRing" aria-hidden="true"><span class="cur-text cur-view">View</span><span class="cur-text cur-dragtxt">Drag</span></div>
+  <div class="cur-dot" id="curDot" aria-hidden="true"></div>
+  <script type="module" src="/assets/site.js"></script>
+</body>
+</html>
