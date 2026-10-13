@@ -1,8 +1,12 @@
 // Shared behaviour: live date in the card header, page reveal, commission
 // rows steering the figure, and 1–5 keys to jump between pages.
-import "./figures.js?v=20261013094707";
+import "./figures.js?v=20261013094905";
 
 const root = document.documentElement;
+
+// Logos outside the page card (e.g. the dock) take that card's color
+const pageCard = document.querySelector(".card");
+if (pageCard) root.style.setProperty("--band", pageCard.style.getPropertyValue("--band"));
 
 // Today's date where a poster would print its issue date
 const now = new Date();

@@ -38,7 +38,8 @@ a { color: inherit; text-decoration: none; }
 .alpha {
   font-family: "Noto Serif", Georgia, "Times New Roman", serif;
   font-style: italic; font-weight: 700; font-size: 1.3em; line-height: 0.8;
-  color: #cf5128; letter-spacing: 0;
+  /* Takes the color of the card it sits on */
+  color: var(--band, #cf5128); letter-spacing: 0; transition: color 0.45s ease;
 }
 
 /* ---------- Color band: a slim rounded bar inset inside each card, so the

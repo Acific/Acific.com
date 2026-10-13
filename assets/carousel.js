@@ -1,6 +1,6 @@
 // Home: a 3D carousel of small poster cards with a glass nav bar.
 // Opening a card shows its page in a popup over the blurred carousel.
-import { mountFigures } from "./figures.js?v=20261013094707";
+import { mountFigures } from "./figures.js?v=20261013094905";
 
 const root = document.documentElement;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -77,6 +77,8 @@ function updateNav() {
   navSub.textContent = c.dataset.sub;
   navChip.textContent = c.dataset.chip;
   navThumb.style.setProperty("--band", c.style.getPropertyValue("--band"));
+  // The header logo follows the card in front
+  root.style.setProperty("--band", c.style.getPropertyValue("--band"));
   navOpen.href = c.dataset.href;
   navOpen.setAttribute("aria-label", `Open ${c.dataset.title}`);
   try { sessionStorage.setItem("acific-card", String(wrap(active))); } catch { /* storage off */ }
