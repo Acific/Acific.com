@@ -1,6 +1,6 @@
 // Home: a 3D carousel of small poster cards with a glass nav bar.
 // Opening a card shows its page in a popup over the blurred carousel.
-import { mountFigures } from "./figures.js?v=20261013095559";
+import { mountFigures } from "./figures.js?v=20261013102332";
 
 const root = document.documentElement;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -26,8 +26,17 @@ pos = active;
 const wrap = (i) => ((i % N) + N) % N;
 const spacing = () => Math.min(innerWidth * 0.22, 250);
 
+// Write a style only when it changes, so idle frames do no work
+const setStyle = (c, key, value) => {
+  if (c._last?.[key] === value) return;
+  (c._last ||= {})[key] = value;
+  if (key.startsWith("--")) c.style.setProperty(key, value);
+  else c.style[key] = value;
+};
+
 function render() {
   const sp = spacing();
+  const front = wrap(Math.round(pos));
   cards.forEach((c, i) => {
     // Shortest signed distance around the loop, so the ring has no end
     let d = i - pos;
@@ -36,13 +45,25 @@ function render() {
     const x = Math.sign(d) * (a < 1 ? a * sp : sp + (a - 1) * sp * 0.62);
     const z = -Math.min(a, 3) * 150;
     const ry = -Math.max(-1, Math.min(1, d)) * 38 - Math.sign(d) * Math.max(0, Math.min(a - 1, 2)) * 4;
-    c.style.transform = `translateX(${x.toFixed(1)}px) translateZ(${z.toFixed(1)}px) rotateY(${ry.toFixed(2)}deg)`;
-    c.style.opacity = a > 3.2 ? 0 : (1 - Math.max(0, a - 1) * 0.28).toFixed(3);
-    c.style.zIndex = String(100 - Math.round(a * 10));
-    c.style.filter = a > 0.6 ? `brightness(${(1 - Math.min(a, 3) * 0.16).toFixed(3)})` : "";
-    c.classList.toggle("is-active", wrap(Math.round(pos)) === i && a < 0.5);
-    c.setAttribute("aria-hidden", wrap(active) === i ? "false" : "true");
-    c.querySelector("a").tabIndex = wrap(active) === i ? 0 : -1;
+    setStyle(c, "transform", `translate3d(${x.toFixed(2)}px, 0, ${z.toFixed(2)}px) rotateY(${ry.toFixed(2)}deg)`);
+    setStyle(c, "opacity", a > 3.2 ? "0" : (1 - Math.max(0, a - 1) * 0.28).toFixed(3));
+    // Fine-grained stacking so passing cards never tie and flip
+    setStyle(c, "zIndex", String(1000 - Math.round(a * 100)));
+    // Side cards dim smoothly with distance (an overlay, not a filter)
+    setStyle(c, "--dim", (Math.min(a, 3) * 0.16).toFixed(3));
+    c.classList.toggle("is-active", front === i && a < 0.5);
+  });
+}
+
+// Focus and screen readers follow the front card; only touched when it changes
+let a11yFront = -1;
+function syncA11y() {
+  const f = wrap(active);
+  if (f === a11yFront) return;
+  a11yFront = f;
+  cards.forEach((c, i) => {
+    c.setAttribute("aria-hidden", i === f ? "false" : "true");
+    c.querySelector("a").tabIndex = i === f ? 0 : -1;
   });
 }
 
@@ -81,6 +102,7 @@ function onDark(hex) {
 
 function updateNav() {
   const c = cards[wrap(active)];
+  syncA11y();
   swapTag(c.dataset.tag);
   navTitle.textContent = c.dataset.title;
   navSub.textContent = c.dataset.sub;
