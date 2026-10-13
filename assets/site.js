@@ -1,6 +1,6 @@
 // Shared behaviour: live date in the card header, page reveal, commission
-// rows steering the figure, and 1–4 keys to jump between pages.
-import "./figures.js?v=20261013080907";
+// rows steering the figure, and 1–5 keys to jump between pages.
+import "./figures.js?v=20261013081747";
 
 const root = document.documentElement;
 
@@ -22,9 +22,9 @@ document.querySelectorAll("[data-station]").forEach((row) => {
   row.addEventListener("pointerleave", () => gridFig?.fig?.setActive(null));
 });
 
-const PAGES = ["/", "/experiments/", "/commissions/", "/about/"];
+const PAGES = ["/", "/experiments/", "/commissions/", "/about/", "/figures/"];
 addEventListener("keydown", (e) => {
   if (e.metaKey || e.ctrlKey || e.altKey || e.target.closest?.("input, textarea, [contenteditable]")) return;
-  const i = ["1", "2", "3", "4"].indexOf(e.key);
+  const i = ["1", "2", "3", "4", "5"].indexOf(e.key);
   if (i >= 0 && location.pathname !== PAGES[i]) location.href = PAGES[i];
 });

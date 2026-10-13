@@ -214,6 +214,98 @@ const FIGURES = {
     };
   },
 
+  // A dot-matrix that spells A·C·I·F·I·C over a faint grid of crosses;
+  // the pointer draws extra dots wherever it passes
+  matrix(svg) {
+    const GLYPHS = {
+      A: [".###.", "#...#", "#...#", "#####", "#...#", "#...#", "#...#"],
+      C: [".####", "#....", "#....", "#....", "#....", "#....", ".####"],
+      I: ["#####", "..#..", "..#..", "..#..", "..#..", "..#..", "#####"],
+      F: ["#####", "#....", "#....", "####.", "#....", "#....", "#...."],
+    };
+    const WORD = "ACIFIC";
+    const cols = 9, rows = 7, x0 = 70, y0 = 110, dx = 45, dy = 46.67;
+    const marks = el("g", { stroke: "#b9b9b9", "stroke-width": 1, "vector-effect": "non-scaling-stroke" }, svg);
+    const dots = [];
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      const x = x0 + c * dx, y = y0 + r * dy;
+      // Alternate tiny crosses and ticks, like a typesetter's grid
+      if ((r + c) % 2) {
+        el("line", { x1: x - 5, y1: y - 5, x2: x + 5, y2: y + 5 }, marks);
+        el("line", { x1: x - 5, y1: y + 5, x2: x + 5, y2: y - 5 }, marks);
+      } else {
+        el("line", { x1: x, y1: y - 6, x2: x, y2: y + 6 }, marks);
+      }
+      dots.push({ x, y, c, r, s: 0, n: el("circle", { cx: x, cy: y, r: 0, fill: "var(--ink)" }, svg) });
+    }
+    const on = (ch, c, r) => c >= 2 && c <= 6 && GLYPHS[ch][r][c - 2] === "#";
+    return {
+      update(t, p) {
+        const ch = WORD[Math.floor(t / 1.3) % WORD.length];
+        for (const d of dots) {
+          let goal = on(ch, d.c, d.r) ? 1 : 0;
+          if (p) goal = Math.max(goal, 1 - Math.hypot(d.x - p.x, d.y - p.y) / 70);
+          d.s = lerp(d.s, goal, 0.18);
+          d.n.setAttribute("r", (d.s * 6.5).toFixed(2));
+        }
+      },
+    };
+  },
+
+  // A woven field of circles and diagonals that swell toward the pointer
+  weave(svg) {
+    const g = el("g", { fill: "none", stroke: "var(--ink)", "stroke-width": 1, "stroke-opacity": 0.7, "vector-effect": "non-scaling-stroke" }, svg);
+    const cells = [];
+    for (let r = 0; r < 3; r++) for (let c = 0; c < 5; c++) {
+      const x = 106 + c * 72, y = 178 + r * 72;
+      cells.push({ x, y, k: 0, a: -Math.PI / 4, circle: el("circle", { cx: x, cy: y, r: 58 }, g), line: el("line", {}, g) });
+    }
+    return {
+      update(t, p) {
+        for (const [i, c] of cells.entries()) {
+          const near = p ? Math.max(0, 1 - Math.hypot(c.x - p.x, c.y - p.y) / 200) : 0.5 + Math.sin(t * 1.1 + i * 0.6) * 0.5;
+          c.k = lerp(c.k, near, 0.1);
+          const r = 52 + c.k * 14;
+          const goalA = p ? Math.atan2(p.y - c.y, p.x - c.x) : -Math.PI / 4 + Math.sin(t * 0.5 + i) * 0.15;
+          c.a += angDiff(c.a, goalA) * 0.08;
+          c.circle.setAttribute("r", r.toFixed(2));
+          const ex = Math.cos(c.a) * r, ey = Math.sin(c.a) * r;
+          c.line.setAttribute("x1", (c.x - ex).toFixed(2)); c.line.setAttribute("y1", (c.y - ey).toFixed(2));
+          c.line.setAttribute("x2", (c.x + ex).toFixed(2)); c.line.setAttribute("y2", (c.y + ey).toFixed(2));
+        }
+      },
+    };
+  },
+
+  // A row of dots; the one nearest the pointer rises on a column
+  lift(svg) {
+    const N = 5, y = 280, r = 34;
+    const items = Array.from({ length: N }, (_, i) => {
+      const x = 90 + i * 80;
+      const col = el("rect", { x: x - r, width: r * 2, fill: "#a9a9a9", "fill-opacity": 0.85 }, svg);
+      const shadow = el("circle", { r, fill: "#a3a3a3" }, svg);
+      const dotN = el("circle", { r, fill: "var(--ink)" }, svg);
+      return { x, col, shadow, dot: dotN, up: 0 };
+    });
+    return {
+      update(t, p) {
+        let active = Math.floor(t / 1.8) % N;
+        if (p) {
+          let best = Infinity;
+          items.forEach((it, i) => { const d = Math.abs(it.x - p.x); if (d < best) { best = d; active = i; } });
+        }
+        for (const [i, it] of items.entries()) {
+          it.up = lerp(it.up, i === active ? 1 : 0, 0.1);
+          const cy = y - it.up * 92;
+          set(it.dot, it.x, cy);
+          set(it.shadow, it.x + 4, cy + 5);
+          it.col.setAttribute("y", cy.toFixed(2));
+          it.col.setAttribute("height", Math.max(0, (y + 70 - cy) * it.up).toFixed(2));
+        }
+      },
+    };
+  },
+
   // Two bodies in a slow dance inside three rings
   pair(svg) {
     const C = [250, 250];
