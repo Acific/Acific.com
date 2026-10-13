@@ -14,9 +14,28 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@1,700&amp;text=%CE%B1&amp;display=block" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/style.css?v=20261013181658">
+  <link rel="stylesheet" href="/assets/style.css?v=20261013182315">
+  <script>
+    // Cinematic intro: once per visit, and never with reduced motion
+    (function () {
+      var h = document.documentElement, seen = false;
+      try { seen = sessionStorage.getItem("acific-intro") === "1"; } catch (e) {}
+      if (seen || matchMedia("(prefers-reduced-motion: reduce)").matches) { h.classList.add("no-intro"); return; }
+      h.classList.add("booting");
+      // Fail-safe: never leave the page hidden if the script below can't run
+      setTimeout(function () { h.classList.remove("booting"); h.classList.add("no-intro"); }, 7000);
+    })();
+  </script>
 </head>
 <body>
+  <div class="intro" id="intro" aria-hidden="true">
+    <div class="intro-glow"></div>
+    <div class="intro-mark"><span class="intro-alpha">α</span><span class="intro-dot">.</span></div>
+    <div class="intro-word" aria-label="acific.labs"><span class="iw-a"><span class="iw" style="--i:0">A</span><span class="iw" style="--i:1">C</span><span class="iw" style="--i:2">I</span><span class="iw" style="--i:3">F</span><span class="iw" style="--i:4">I</span><span class="iw" style="--i:5">C</span></span><span class="iw-b"><span class="iw" style="--i:6">.</span><span class="iw" style="--i:7">L</span><span class="iw" style="--i:8">A</span><span class="iw" style="--i:9">B</span><span class="iw" style="--i:10">S</span></span></div>
+    <div class="intro-bar"><i id="introBar"></i></div>
+    <p class="intro-skip">Click to skip</p>
+  </div>
+
   <header class="top">
     <a class="top-mark" href="/" aria-label="Acific home"><span class="alpha" aria-hidden="true">α</span></a>
     <h1 class="top-title"><span>acific</span>.labs</h1>
@@ -109,7 +128,7 @@
       <div class="modal-body" id="modalBody"></div>
     </article>
   </div>
-  <script type="module" src="/assets/site.js?v=20261013181658"></script>
-  <script type="module" src="/assets/carousel.js?v=20261013181658"></script>
+  <script type="module" src="/assets/site.js?v=20261013182315"></script>
+  <script type="module" src="/assets/carousel.js?v=20261013182315"></script>
 </body>
 </html>

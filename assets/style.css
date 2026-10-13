@@ -409,3 +409,71 @@ a { color: inherit; text-decoration: none; }
   .modal.show .modal-body > * { animation: none; }
   .st.run::before { animation: none; }
 }
+
+/* ---------- Cinematic intro (home, once per visit) ---------- */
+/* A color property the browser can animate, cycling through the card colors */
+@property --ic { syntax: "<color>"; inherits: true; initial-value: #b07a78; }
+@keyframes introColor {
+  0% { --ic: #b07a78; } 16% { --ic: #7d8fb3; } 32% { --ic: #a8a548; } 48% { --ic: #c4704f; }
+  64% { --ic: #6f9a8d; } 80% { --ic: #e0c24f; } 100% { --ic: #b07a78; }
+}
+.intro {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(18px, 3.4vh, 34px);
+  background: radial-gradient(ellipse 70% 60% at 50% 46%, #1c1c20 0%, #0b0b0c 62%);
+  color: #f2f2f2; cursor: pointer; overflow: hidden;
+  animation: introColor 3.2s linear 0.2s both;
+}
+.no-intro .intro { display: none; }
+/* A slow-breathing light behind the mark, tinted with the cycling color */
+.intro-glow {
+  position: absolute; left: 50%; top: 44%; width: 70vmin; height: 70vmin; translate: -50% -50%;
+  border-radius: 50%; background: var(--ic); filter: blur(90px);
+  opacity: 0; animation: glowIn 2.6s ease 0.1s forwards;
+}
+@keyframes glowIn { 0% { opacity: 0; scale: 0.4; } 60% { opacity: 0.32; } 100% { opacity: 0.2; scale: 1; } }
+
+.intro-mark { position: relative; display: flex; align-items: baseline; line-height: 0.8; }
+.intro-alpha {
+  font-family: "Noto Serif", Georgia, serif; font-style: italic; font-weight: 700;
+  font-size: clamp(160px, 36vmin, 420px); line-height: 0.8;
+  /* The color, with a beam of light swept across it */
+  /* 300% wide and kept between 0–100% so it always covers the letter */
+  background: linear-gradient(105deg, var(--ic) 0 42%, #fff7ec 50%, var(--ic) 58% 100%) 100% 0 / 300% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: alphaIn 1.6s cubic-bezier(.16, 1, .3, 1) 0.25s both, sweep 1.4s ease-in-out 1.15s both;
+}
+@keyframes alphaIn {
+  from { opacity: 0; filter: blur(42px); transform: scale(1.45) rotate(-8deg) translateY(4%); }
+  55% { opacity: 1; }
+  to { opacity: 1; filter: blur(0); transform: none; }
+}
+@keyframes sweep { from { background-position: 100% 0; } to { background-position: 0% 0; } }
+.intro-dot {
+  font-family: var(--sans); font-weight: 800; font-size: clamp(62px, 14vmin, 162px); line-height: 0.8;
+  color: #f2f2f2; margin-left: 0.04em;
+  animation: dotIn 0.9s cubic-bezier(.34, 1.56, .64, 1) 1s both;
+}
+@keyframes dotIn { from { opacity: 0; transform: translateY(-120%) scale(0.2); filter: blur(10px); } to { opacity: 1; transform: none; filter: blur(0); } }
+
+.intro-word {
+  position: relative; display: flex; font-size: clamp(14px, 2.1vmin, 24px); font-weight: 300;
+  letter-spacing: 0.62em; padding-left: 0.62em; /* balance the trailing spacing */
+}
+.iw { display: inline-block; animation: letterIn 1s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(1.25s + var(--i) * 0.07s); }
+.iw-a .iw { color: #f2f2f2; }
+.iw-b .iw { color: #8f8f8f; } /* ".LABS" is one unit in one color */
+@keyframes letterIn { from { opacity: 0; filter: blur(14px); transform: translateY(14px); } to { opacity: 1; filter: blur(0); transform: none; } }
+
+.intro-bar { position: relative; width: min(160px, 40vw); height: 1px; background: rgba(255, 255, 255, 0.12); overflow: hidden; animation: blurIn 0.8s ease 1.5s both; }
+.intro-bar i { position: absolute; inset: 0; background: var(--ic); transform-origin: left; transform: scaleX(var(--p, 0)); transition: transform 0.4s ease; }
+.intro-skip { position: absolute; bottom: 26px; font-size: 11px; color: #5d5d5d; letter-spacing: 0.04em; animation: blurIn 1s ease 1.8s both; }
+
+/* Exit: the whole intro swells and dissolves into blur */
+.intro.out { animation: introColor 3.2s linear 0.2s both, introOut 1s cubic-bezier(.7, 0, .2, 1) forwards; pointer-events: none; }
+.intro.out .intro-mark, .intro.out .intro-word { animation: outLift 1s cubic-bezier(.7, 0, .2, 1) forwards; }
+@keyframes introOut { 0% { opacity: 1; } 40% { opacity: 1; } 100% { opacity: 0; backdrop-filter: none; } }
+@keyframes outLift { to { opacity: 0; filter: blur(26px); transform: scale(1.12); } }
+
+/* Hold the home page's own entrance until the intro clears */
+.booting .top, .booting .cc a, .booting .cnav, .booting .chint, .booting .ctag { animation-play-state: paused; }
