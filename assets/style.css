@@ -410,67 +410,35 @@ a { color: inherit; text-decoration: none; }
   .st.run::before { animation: none; }
 }
 
-/* ---------- Intro (home, once per visit) — restrained, Apple-like ---------- */
+/* ---------- Intro (home, once per visit): like a Mac boot screen ---------- */
 .intro {
   --ap-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
-  --sf: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Helvetica Neue", sans-serif;
   position: fixed; inset: 0; z-index: 1000;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(22px, 4vh, 40px);
-  background: #000; color: #f5f5f7; cursor: pointer; overflow: hidden;
-  -webkit-font-smoothing: antialiased;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: clamp(48px, 9vh, 84px);
+  background: #000; cursor: pointer;
 }
 .no-intro .intro { display: none; }
-
-/* A soft, slowly swirling aura in the card colors, like Apple Intelligence's glow */
-.intro-aura {
-  position: absolute; left: 50%; top: 45%; width: 62vmin; height: 62vmin; translate: -50% -50%;
-  border-radius: 50%;
-  background: conic-gradient(from 0deg, #b07a78, #7d8fb3, #6f9a8d, #a8a548, #e0c24f, #c4704f, #b07a78);
-  filter: blur(70px); opacity: 0;
-  animation: auraIn 2.4s var(--ap-ease) 0.9s forwards, auraSpin 9s linear 0.9s infinite;
+.intro-mark {
+  display: flex; align-items: baseline; line-height: 0.8; color: #fff;
+  animation: bootIn 0.9s var(--ap-ease) 0.15s both;
 }
-@keyframes auraIn { from { opacity: 0; scale: 0.55; } to { opacity: 0.36; scale: 1; } }
-@keyframes auraSpin { to { rotate: 360deg; } }
-
-.intro-mark { position: relative; display: flex; align-items: baseline; line-height: 0.8; }
 .intro-alpha {
   font-family: "Noto Serif", Georgia, serif; font-style: italic; font-weight: 700;
-  font-size: clamp(150px, 32vmin, 380px); line-height: 0.8;
-  /* Brushed silver, with one soft sheen passing across */
-  background: linear-gradient(105deg, #f0f0f3 0 40%, #ffffff 50%, #f0f0f3 60% 100%) 100% 0 / 300% 100%,
-              linear-gradient(#ffffff, #c7c7cc);
-  background-blend-mode: multiply;
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-  animation: alphaIn 1.8s var(--ap-ease) 0.3s both, sheen 1.8s var(--ap-ease) 1.4s both;
+  font-size: clamp(64px, 11vmin, 112px); line-height: 0.8;
 }
-@keyframes alphaIn {
-  from { opacity: 0; filter: blur(24px); transform: scale(1.12); }
-  to { opacity: 1; filter: blur(0); transform: none; }
+.intro-dot { font-family: var(--sans); font-weight: 800; font-size: clamp(26px, 4.4vmin, 45px); line-height: 0.8; margin-left: 0.04em; }
+/* Thin white progress bar on a dark track */
+.intro-bar {
+  width: clamp(140px, 22vmin, 220px); height: 4px; border-radius: 2px;
+  background: #2e2e2e; overflow: hidden;
+  animation: bootIn 0.6s var(--ap-ease) 0.5s both;
 }
-@keyframes sheen { from { background-position: 100% 0, 0 0; } to { background-position: 0% 0, 0 0; } }
-.intro-dot {
-  font-family: var(--sf); font-weight: 700; font-size: clamp(58px, 12.5vmin, 148px); line-height: 0.8;
-  color: #f5f5f7; margin-left: 0.04em;
-  animation: fadeBlur 1.2s var(--ap-ease) 1.05s both;
-}
-
-.intro-word {
-  position: relative; display: flex;
-  font-family: var(--sf); font-weight: 500; font-size: clamp(13px, 1.9vmin, 21px);
-  animation: tracking 1.8s var(--ap-ease) 1.25s both;
-}
-.iw { display: inline-block; animation: fadeBlur 1.2s var(--ap-ease) both; animation-delay: calc(1.25s + var(--i) * 0.045s); }
-.iw-a .iw { color: #f5f5f7; }
-.iw-b .iw { color: #86868b; } /* ".LABS" is one unit in one color */
-@keyframes fadeBlur { from { opacity: 0; filter: blur(10px); transform: translateY(8px); } to { opacity: 1; filter: blur(0); transform: none; } }
-/* Letter-spacing gently tightens as the name settles */
-@keyframes tracking { from { letter-spacing: 0.62em; padding-left: 0.62em; } to { letter-spacing: 0.36em; padding-left: 0.36em; } }
-
-/* Exit: a calm fade with a gentle zoom */
-.intro.out { animation: introOut 0.9s var(--ap-ease) forwards; pointer-events: none; }
-.intro.out .intro-mark, .intro.out .intro-word { animation: outZoom 0.9s var(--ap-ease) forwards; }
-@keyframes introOut { 0%, 30% { opacity: 1; } 100% { opacity: 0; } }
-@keyframes outZoom { to { opacity: 0; filter: blur(14px); transform: scale(0.94); } }
+.intro-bar i { display: block; height: 100%; width: 100%; background: #fff; border-radius: inherit; transform-origin: left; transform: scaleX(var(--p, 0)); transition: transform 0.35s linear; }
+@keyframes bootIn { from { opacity: 0; } to { opacity: 1; } }
+/* Exit: a quiet fade to the carousel */
+.intro.out { animation: bootOut 0.7s var(--ap-ease) forwards; pointer-events: none; }
+@keyframes bootOut { to { opacity: 0; } }
 
 /* Hold the home page's own entrance until the intro clears */
 .booting .top, .booting .cc a, .booting .cnav, .booting .chint, .booting .ctag { animation-play-state: paused; }
