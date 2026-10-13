@@ -149,6 +149,13 @@ stage.addEventListener("pointercancel", () => { drag = null; stage.classList.rem
 // (keyboard activation has detail 0 and is allowed through)
 stage.addEventListener("click", (e) => { if (e.detail && e.target.closest(".cc a")) e.preventDefault(); });
 
+// Stagger the load-in: the front card first, then each step outward
+cards.forEach((c, i) => {
+  let d = i - active;
+  d -= Math.round(d / N) * N;
+  c.style.setProperty("--delay", `${Math.abs(d) * 0.12}s`);
+});
+
 updateNav();
 render();
 requestAnimationFrame(loop);
