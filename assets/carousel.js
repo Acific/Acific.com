@@ -110,7 +110,13 @@ stage.addEventListener("wheel", (e) => {
 }, { passive: false });
 
 // Drag / swipe; a click on a side card brings it forward
+// Cards are links and their figures are SVG: stop the browser's own
+// link/image dragging, which would otherwise swallow the gesture
+stage.addEventListener("dragstart", (e) => e.preventDefault());
+stage.querySelectorAll("a, svg").forEach((n) => n.setAttribute("draggable", "false"));
+
 stage.addEventListener("pointerdown", (e) => {
+  if (e.button !== 0) return;
   drag = { x: e.clientX, start: pos, moved: 0, card: e.target.closest(".cc") };
   stage.setPointerCapture(e.pointerId);
   stage.classList.add("dragging");
