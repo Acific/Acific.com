@@ -34,14 +34,30 @@ a { color: inherit; text-decoration: none; }
 .u { border-bottom: 1px solid var(--faint); transition: border-color 0.2s; }
 .u:hover { border-color: var(--ink); }
 
+/* ---------- Color band: a slim rounded bar inset inside each card, so the
+   card's rounded outline stays whole ---------- */
+.card, .modal-card, .cc a, .ticket, .exp-fig, .dock-card, .cnav-thumb { position: relative; }
+.card::before, .modal-card::before, .cc a::before, .ticket::before, .exp-fig::before, .dock-card::before, .cnav-thumb::before {
+  content: ""; position: absolute; z-index: 1; pointer-events: none;
+  top: var(--bt, 12px); left: var(--bx, 16px); right: var(--bx, 16px); height: var(--bh, 5px);
+  border-radius: 999px; background: var(--band, #b07a78);
+}
+.card { --bt: 22px; --bx: 28px; --bh: 8px; }
+.modal-card { --bt: 18px; --bx: 64px; --bh: 6px; }
+.cc a { --bt: 11px; --bx: 18px; --bh: 5px; }
+.ticket { --bt: 9px; --bx: 14px; --bh: 4px; }
+.exp-fig { --bt: 8px; --bx: 14px; --bh: 4px; }
+.dock-card { --bt: 4px; --bx: 6px; --bh: 3px; }
+.cnav-thumb { --bt: 3px; --bx: 4px; --bh: 3px; }
+
 /* ---------- The card ---------- */
 .wall { padding: clamp(0px, 3vw, 40px) clamp(0px, 3vw, 40px) clamp(0px, 4vw, 56px); }
 .card {
   max-width: 680px; margin: 0 auto; min-height: 100vh;
   background: var(--card);
-  /* Rounded top corners like an Apple card; the band is painted inside the curve */
+  /* Rounded top corners like an Apple card */
   border-radius: 28px 28px 0 0;
-  background: linear-gradient(var(--band, #b07a78) 0 22px, var(--card) 22px);
+  background: var(--card);
   padding: 84px var(--pad) 56px;
   display: flex; flex-direction: column;
   /* Scalloped "ticket" bottom edge */
@@ -135,7 +151,7 @@ a { color: inherit; text-decoration: none; }
   display: grid; grid-template-columns: clamp(110px, 22vw, 168px) 1fr; gap: clamp(16px, 4vw, 36px); align-items: center;
   padding: 22px 0; border-bottom: 1px solid var(--rule);
 }
-.exp-fig { display: block; aspect-ratio: 1; border-radius: 16px; overflow: hidden; background: linear-gradient(var(--band) 0 6px, var(--card) 6px); padding: 16px 10px 10px; box-shadow: inset 0 0 0 1px var(--rule); transition: transform 0.5s var(--ease); }
+.exp-fig { display: block; aspect-ratio: 1; border-radius: 16px; overflow: hidden; background: var(--card); padding: 16px 10px 10px; box-shadow: inset 0 0 0 1px var(--rule); transition: transform 0.5s var(--ease); }
 .exp-fig svg { width: 100%; height: 100%; overflow: visible; display: block; }
 .exp:hover .exp-fig { transform: translateY(-4px) rotate(-1.5deg); }
 .exp-text { display: flex; flex-direction: column; gap: 6px; }
@@ -146,8 +162,8 @@ a { color: inherit; text-decoration: none; }
 /* Figures gallery: a wall of tickets */
 .tickets { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 2.4vw, 24px); }
 .ticket {
-  border-radius: 20px; background: linear-gradient(var(--band) 0 6px, #f3f3f3 6px);
-  padding: 12px 12px 14px; display: flex; flex-direction: column; gap: 6px;
+  border-radius: 20px; background: #f3f3f3;
+  padding: 22px 14px 14px; display: flex; flex-direction: column; gap: 6px;
   transition: transform 0.5s var(--ease), box-shadow 0.5s;
 }
 .ticket:hover { transform: translateY(-6px) rotate(-0.8deg); box-shadow: 0 18px 30px -18px rgba(0, 0, 0, 0.25); }
@@ -169,7 +185,7 @@ a { color: inherit; text-decoration: none; }
 .dock a { flex: 0 0 auto; width: 46px; height: 54px; border-radius: 9px; overflow: hidden; transition: transform 0.35s var(--ease); }
 .dock a:hover, .dock a[aria-current] { transform: translateY(-6px); }
 .dock-home { display: flex; align-items: center; justify-content: center; background: #1a1a1a; color: #fff; font-weight: 800; font-size: 17px; letter-spacing: -0.04em; }
-.dock-card { background: linear-gradient(var(--band) 0 3px, var(--card) 3px); padding: 7px 6px 5px; display: flex; flex-direction: column; justify-content: space-between; }
+.dock-card { background: var(--card); padding: 7px 6px 5px; display: flex; flex-direction: column; justify-content: space-between; }
 .dock-card b { font-weight: 800; font-size: 9px; letter-spacing: -0.04em; }
 .dock-card span { font-size: 7px; line-height: 1.1; color: #555; }
 .dock a[aria-current] { outline: 1px solid rgba(255, 255, 255, 0.6); outline-offset: 2px; }
@@ -207,8 +223,8 @@ a { color: inherit; text-decoration: none; }
 .cc a {
   position: relative; display: flex; flex-direction: column; height: 100%;
   background: var(--card); color: var(--ink);
-  /* Apple-like rounded corners; the band is clipped by the curve */
-  border-radius: 22px; background: linear-gradient(var(--band) 0 7px, var(--card) 7px); padding: 19px 16px 13px;
+  /* Apple-like rounded corners */
+  border-radius: 22px; background: var(--card); padding: 28px 16px 13px;
   box-shadow: 0 30px 60px -22px rgba(0, 0, 0, 0.85);
   -webkit-box-reflect: below 6px linear-gradient(transparent 74%, rgba(255, 255, 255, 0.14));
   transition: box-shadow 0.4s;
@@ -266,7 +282,7 @@ a { color: inherit; text-decoration: none; }
 .cnav-now { display: flex; align-items: center; gap: 10px; padding: 0 10px 0 6px; min-width: min(240px, 46vw); }
 .cnav-thumb {
   width: 28px; height: 34px; flex: 0 0 auto; border-radius: 3px;
-  background: linear-gradient(var(--band) 0 3px, var(--card) 3px); color: var(--ink); border-radius: 7px; overflow: hidden;
+  background: var(--card); color: var(--ink); border-radius: 7px; overflow: hidden;
   padding: 3px 4px; transition: border-color 0.3s;
 }
 .cnav-thumb b { font-weight: 800; font-size: 9px; letter-spacing: -0.04em; display: block; }
@@ -306,12 +322,12 @@ a { color: inherit; text-decoration: none; }
   transform: translateY(48px) scale(0.98); filter: blur(10px);
   transition: transform 0.65s var(--ease), filter 0.5s ease;
 }
-.modal-card::before { content: ""; display: block; height: 8px; background: var(--band, #b07a78); }
+
 .modal.show .modal-card { transform: none; filter: none; }
 /* The card's contents come out of a blur one after another, top to bottom */
 @keyframes contentIn { from { opacity: 0; filter: blur(12px); transform: translateY(14px); } }
 .modal.show .modal-body > * { animation: contentIn 0.8s var(--ease) backwards; animation-delay: calc(0.12s + var(--i, 0) * 0.07s); }
-.modal-body { padding: 44px var(--pad) 52px; display: flex; flex-direction: column; }
+.modal-body { padding: 64px var(--pad) 52px; display: flex; flex-direction: column; }
 .modal-body .card-head { margin-bottom: clamp(48px, 9vw, 88px); }
 .modal-body .card-foot { padding-top: 40px; }
 .modal-close {
