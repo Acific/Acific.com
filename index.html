@@ -1,198 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Acific — Experimental Software Lab</title>
-  <meta name="description" content="Acific is an experimental software lab. We build our own products and AI tools, and run commissioned experiments for businesses that want to build theirs.">
-  <meta name="theme-color" content="#0c0d0b">
+  <meta name="description" content="Acific is an independent software lab. We prototype our own products and AI tools, and run commissioned experiments for teams who want something that doesn't exist yet.">
+  <meta name="theme-color" content="#f6f6f3">
   <meta property="og:title" content="Acific — Experimental Software Lab">
   <meta property="og:description" content="We run experiments in software and AI. Some of them ship.">
   <meta property="og:type" content="website">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/style.css">
+  <script>document.documentElement.className = "js";</script>
 </head>
-<body>
-  <div class="statusbar mono" aria-hidden="true">
-    <span><i class="dot"></i>LAB STATUS: OPERATIONAL</span>
-    <span class="hide-sm">LOCAL <b id="clock">--:--:--</b></span>
-    <span class="hide-sm">VIEWPORT <b id="vp">----×----</b></span>
-    <span>ACIFIC/<b>v2</b></span>
+<body data-view="specimens">
+  <div class="loader" id="loader" aria-hidden="true">
+    <span class="loader-note">Growing specimens</span>
+    <span class="counter serif" id="loadCount">000</span>
   </div>
 
-  <header class="nav">
-    <a href="#top" class="logo" aria-label="Acific home">
-      <img src="assets/favicon.svg" alt="" width="26" height="26">
-      <span>ACIFIC</span><sup class="mono">LAB</sup>
-    </a>
-    <button class="nav-toggle mono" aria-label="Open menu" aria-expanded="false">[ MENU ]</button>
-    <nav class="nav-links mono">
-      <a href="#experiments"><span>01</span>Experiments</a>
-      <a href="#commissions"><span>02</span>Commissions</a>
-      <a href="#protocol"><span>03</span>Protocol</a>
-      <a href="#contact" class="nav-cta">Open a channel →</a>
-    </nav>
+  <header class="pill" role="navigation" aria-label="Views">
+    <a class="pill-brand" href="#" data-view="specimens">ACIFIC.LAB</a>
+    <button class="pill-item serif" data-view="specimens" aria-current="true">Specimens<sup>1</sup></button>
+    <button class="pill-item serif" data-view="index">Index<sup>2</sup></button>
+    <button class="pill-item serif" data-view="contact">Contact<sup>3</sup></button>
   </header>
 
-  <main id="top">
-    <section class="hero">
-      <div class="hero-copy">
-        <p class="label mono">FIG. 00 — SPECIMEN UNDER OBSERVATION</p>
-        <h1>
-          <span class="h-wide">We run</span>
-          <span class="h-wide">experiments</span>
-          <span class="h-narrow">in software &amp; AI.</span>
-          <span class="h-accent">Some of them ship.</span>
-        </h1>
-        <p class="lead">Acific is an independent software lab. We prototype our own products and AI tools, and we run commissioned experiments for teams who want something that doesn't exist yet.</p>
-        <div class="hero-cta">
-          <a href="#contact" class="btn">Propose an experiment</a>
-          <a href="#experiments" class="btn btn-ghost mono">View the log ↓</a>
+  <button class="sound" id="sound" aria-pressed="false" aria-label="Toggle sound">
+    <span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <span class="sound-label">Sound off</span>
+  </button>
+
+  <h1 class="midline">
+    <span class="mid-l split">Acific</span>
+    <span class="mid-r serif split">Experimental Software Lab</span>
+  </h1>
+
+  <div class="stage" id="stage" role="img" aria-label="A slowly rotating cloud of generative drawings. Drag to orbit, click one to inspect it."></div>
+  <div class="cursor-label" id="cursorLabel" aria-hidden="true"></div>
+
+  <footer class="hud" aria-hidden="true">
+    <span class="hud-l">Drag to orbit · Scroll to zoom · Click a specimen</span>
+    <span class="hud-c serif" id="hudCount">000</span>
+    <span class="hud-r"><span id="clock">--:--</span> local</span>
+  </footer>
+
+  <main>
+    <section class="panel" id="panel-index" data-panel="index" aria-label="Index">
+      <div class="panel-inner index-grid">
+        <div class="col col-about">
+          <p class="kicker">About</p>
+          <p class="big serif">Acific is an independent software lab. We prototype our own products and AI tools, and run commissioned experiments for teams who want something that doesn't exist yet.</p>
+          <p class="small">The specimens floating behind this page are generated live in your browser. Each one is a small experiment with its own seed. Click one and mutate it.</p>
+        </div>
+
+        <div class="col">
+          <p class="kicker">Experiments<sup>in-house</sup></p>
+          <ol class="list">
+            <li><span class="num">001</span><span class="title">AI Tools</span><span class="st run">Running</span>
+              <p>AI that does real work, not demos. Assistants, data pipelines and workflows that quietly automate the boring parts.</p></li>
+            <li><span class="num">002</span><span class="title">Developer Utilities</span><span class="st run">Running</span>
+              <p>Small, sharp tools that remove friction from building and shipping software.</p></li>
+            <li><span class="num">003</span><span class="title">Apps</span><span class="st">Queued</span>
+              <p>Web and mobile apps built around one thing, done exceptionally well.</p></li>
+          </ol>
+        </div>
+
+        <div class="col">
+          <p class="kicker">Commissions<sup>for you</sup></p>
+          <ol class="list">
+            <li><span class="num">C/1</span><span class="title">Web &amp; App Development</span>
+              <p>Websites, web apps and mobile apps, from rough prototype to production.</p></li>
+            <li><span class="num">C/2</span><span class="title">AI Integration</span>
+              <p>LLMs and automation wired into your product or operations. Measured wins, no hype.</p></li>
+            <li><span class="num">C/3</span><span class="title">Product Design</span>
+              <p>UX and interface design that makes a product feel obvious and alive.</p></li>
+            <li><span class="num">C/4</span><span class="title">Technical Consulting</span>
+              <p>Architecture, code review and strategy, so your team makes the right calls early.</p></li>
+          </ol>
+        </div>
+
+        <div class="col">
+          <p class="kicker">Protocol</p>
+          <ol class="list protocol">
+            <li><span class="num">01</span><span class="title serif">Observe</span><p>Goals, users, constraints. Define what success looks like.</p></li>
+            <li><span class="num">02</span><span class="title serif">Hypothesize</span><p>Architecture and experience, designed before production code.</p></li>
+            <li><span class="num">03</span><span class="title serif">Iterate</span><p>Short cycles, frequent demos. Watch the specimen evolve weekly.</p></li>
+            <li><span class="num">04</span><span class="title serif">Release</span><p>Ship, measure, keep improving. We stay in the lab after launch.</p></li>
+          </ol>
         </div>
       </div>
-
-      <figure class="specimen" aria-label="Interactive generative particle field">
-        <div class="specimen-frame">
-          <canvas id="field"></canvas>
-          <span class="corner tl"></span><span class="corner tr"></span>
-          <span class="corner bl"></span><span class="corner br"></span>
-          <div class="crosshair" id="crosshair" aria-hidden="true"></div>
-        </div>
-        <figcaption class="readout mono">
-          <span>X <b id="rx">0.000</b></span>
-          <span>Y <b id="ry">0.000</b></span>
-          <span>N <b id="rn">0</b></span>
-          <span>FPS <b id="rf">--</b></span>
-          <span class="hint">MOVE TO PERTURB · CLICK TO INJECT</span>
-        </figcaption>
-      </figure>
     </section>
 
-    <div class="ticker mono" aria-hidden="true">
-      <div class="ticker-track">
-        <span>PROTOTYPE → TEST → BREAK → LEARN → SHIP</span>
-        <span>✳ AI TOOLS</span><span>✳ DEVELOPER UTILITIES</span><span>✳ APPS</span>
-        <span>✳ WEB &amp; MOBILE</span><span>✳ PRODUCT DESIGN</span>
-        <span>PROTOTYPE → TEST → BREAK → LEARN → SHIP</span>
-        <span>✳ AI TOOLS</span><span>✳ DEVELOPER UTILITIES</span><span>✳ APPS</span>
-        <span>✳ WEB &amp; MOBILE</span><span>✳ PRODUCT DESIGN</span>
-      </div>
-    </div>
-
-    <section id="experiments" class="section">
-      <header class="section-head">
-        <p class="label mono">§01 / EXPERIMENT LOG</p>
-        <h2>In-house experiments</h2>
-        <p class="section-lead">Our own research tracks. Each one starts as a question we couldn't stop asking.</p>
-      </header>
-
-      <div class="log" role="table" aria-label="Experiment log">
-        <div class="log-row log-head mono" role="row">
-          <span role="columnheader">ID</span>
-          <span role="columnheader">Track</span>
-          <span role="columnheader" class="hide-sm">Hypothesis</span>
-          <span role="columnheader">Status</span>
-        </div>
-        <article class="log-row reveal" role="row">
-          <span class="mono id" role="cell">EXP-001</span>
-          <h3 role="cell">AI Tools</h3>
-          <p role="cell">AI should do real work, not demos. Assistants, data pipelines and workflows that quietly automate the boring parts.</p>
-          <span class="status running mono" role="cell"><i></i>RUNNING</span>
-        </article>
-        <article class="log-row reveal" role="row">
-          <span class="mono id" role="cell">EXP-002</span>
-          <h3 role="cell">Developer Utilities</h3>
-          <p role="cell">Small, sharp tools remove more friction than big platforms. Things that make building and shipping faster.</p>
-          <span class="status running mono" role="cell"><i></i>RUNNING</span>
-        </article>
-        <article class="log-row reveal" role="row">
-          <span class="mono id" role="cell">EXP-003</span>
-          <h3 role="cell">Apps</h3>
-          <p role="cell">One thing, done exceptionally well, beats ten features done fine. Web and mobile apps built around that idea.</p>
-          <span class="status queued mono" role="cell"><i></i>QUEUED</span>
-        </article>
-      </div>
-    </section>
-
-    <section id="commissions" class="section">
-      <header class="section-head">
-        <p class="label mono">§02 / COMMISSIONS</p>
-        <h2>Bring us your problem</h2>
-        <p class="section-lead">Same bench, same standards, pointed at what you're building.</p>
-      </header>
-
-      <div class="bench">
-        <article class="cell reveal">
-          <span class="mono cell-id">C/01</span>
-          <h3>Web &amp; App Development</h3>
-          <p>Websites, web apps and mobile apps, from rough prototype to production launch.</p>
-        </article>
-        <article class="cell reveal">
-          <span class="mono cell-id">C/02</span>
-          <h3>AI Integration</h3>
-          <p>LLMs and automation wired into your product or operations. Measured wins, no hype.</p>
-        </article>
-        <article class="cell reveal">
-          <span class="mono cell-id">C/03</span>
-          <h3>Product Design</h3>
-          <p>UX and interface design that makes a product feel obvious, consistent and alive.</p>
-        </article>
-        <article class="cell reveal">
-          <span class="mono cell-id">C/04</span>
-          <h3>Technical Consulting</h3>
-          <p>Architecture, code review and strategy, so your team makes the right calls early.</p>
-        </article>
-      </div>
-    </section>
-
-    <section id="protocol" class="section">
-      <header class="section-head">
-        <p class="label mono">§03 / PROTOCOL</p>
-        <h2>Method</h2>
-      </header>
-
-      <ol class="protocol">
-        <li class="reveal">
-          <span class="step mono">STEP 01</span>
-          <h3>Observe</h3>
-          <p>Learn your goals, users and constraints. Define what a successful result looks like.</p>
-        </li>
-        <li class="reveal">
-          <span class="step mono">STEP 02</span>
-          <h3>Hypothesize</h3>
-          <p>Plan the architecture and design the experience before any production code.</p>
-        </li>
-        <li class="reveal">
-          <span class="step mono">STEP 03</span>
-          <h3>Iterate</h3>
-          <p>Short cycles with frequent demos. You see the specimen evolve every week.</p>
-        </li>
-        <li class="reveal">
-          <span class="step mono">STEP 04</span>
-          <h3>Release</h3>
-          <p>Ship, measure, keep improving. We stay in the lab after launch.</p>
-        </li>
-      </ol>
-    </section>
-
-    <section id="contact" class="section contact">
-      <div class="contact-box reveal">
-        <p class="label mono">§04 / OPEN A CHANNEL</p>
-        <h2>Got a hypothesis?</h2>
-        <p>Tell us what you're trying to build. We reply within a couple of business days.</p>
-        <a href="mailto:acificlabs@gmail.com" class="btn btn-big mono">acificlabs@gmail.com</a>
+    <section class="panel" id="panel-contact" data-panel="contact" aria-label="Contact">
+      <div class="panel-inner contact">
+        <p class="kicker">Open a channel</p>
+        <h2 class="serif">Got a <em>hypothesis?</em></h2>
+        <a class="mail" href="mailto:acificlabs@gmail.com">acificlabs@gmail.com <span aria-hidden="true">↗</span></a>
+        <p class="small">Tell us what you're trying to build. We reply within a couple of business days.</p>
+        <p class="small links"><a href="https://github.com/Acific" target="_blank" rel="noopener">GitHub ↗</a></p>
       </div>
     </section>
   </main>
 
-  <footer class="footer mono">
-    <span>© <span id="year"></span> ACIFIC — EXPERIMENTAL SOFTWARE LAB</span>
-    <a href="https://github.com/Acific" target="_blank" rel="noopener">GITHUB ↗</a>
-  </footer>
+  <div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-labelledby="vName" hidden>
+    <div class="viewer-art"><canvas id="viewerCanvas"></canvas></div>
+    <aside class="viewer-meta">
+      <p class="v-id serif" id="vId">S-01</p>
+      <h2 id="vName">Specimen</h2>
+      <p class="v-note" id="vNote"></p>
+      <dl>
+        <dt>Seed</dt><dd id="vSeed">0</dd>
+        <dt>Variant</dt><dd id="vVariant">—</dd>
+        <dt>Mutations</dt><dd id="vMut">0</dd>
+      </dl>
+      <div class="v-actions">
+        <button id="vMutate">Mutate ↻</button>
+        <button id="vClose">Close ✕</button>
+      </div>
+    </aside>
+  </div>
 
-  <script src="assets/main.js"></script>
+  <script type="module" src="assets/main.js"></script>
 </body>
 </html>
