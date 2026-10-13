@@ -1,6 +1,6 @@
 // Shared behaviour for every page: text effects, clock, sound, cursor,
 // generative covers, hover previews, page reveal and keyboard navigation.
-import { renderSpecimen } from "./specimens.js";
+import { renderSpecimen } from "./specimens.js?v=20261013074348";
 
 export const root = document.documentElement;
 export const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;

@@ -1,0 +1,3 @@
+# Always revalidate assets so a deploy shows up immediately
+/assets/*
+  Cache-Control: public, max-age=0, must-revalidate

@@ -1,5 +1,5 @@
-import { GENERATORS, renderSpecimen } from "./specimens.js";
-import { root, reduceMotion, $, pad3, scramble, sound, setSound, store } from "./site.js";
+import { GENERATORS, renderSpecimen } from "./specimens.js?v=20261013074348";
+import { root, reduceMotion, $, pad3, scramble, sound, setSound, store } from "./site.js?v=20261013074348";
 
 const small = () => innerWidth < 640;
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
