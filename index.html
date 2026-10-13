@@ -17,16 +17,22 @@
   <script>document.documentElement.className = "js";</script>
 </head>
 <body data-view="specimens">
-  <div class="loader" id="loader" aria-hidden="true">
-    <span class="loader-note">Growing specimens</span>
-    <span class="counter serif" id="loadCount">000</span>
+  <div class="loader" id="loader">
+    <span class="loader-note" id="loaderNote">Growing specimens</span>
+    <div class="gate">
+      <button class="serif" id="enterSound">Enter with sound</button>
+      <span class="gate-sep" aria-hidden="true">/</span>
+      <button class="serif" id="enterQuiet">Enter in silence</button>
+      <p class="gate-hint">Drag to orbit · Scroll to zoom · Click a specimen · F to reshape</p>
+    </div>
+    <span class="counter serif" id="loadCount" aria-hidden="true">000</span>
   </div>
 
   <header class="pill" role="navigation" aria-label="Views">
     <a class="pill-brand" href="#" data-view="specimens">ACIFIC.LAB</a>
-    <button class="pill-item serif" data-view="specimens" aria-current="true">Specimens<sup>1</sup></button>
-    <button class="pill-item serif" data-view="index">Index<sup>2</sup></button>
-    <button class="pill-item serif" data-view="contact">Contact<sup>3</sup></button>
+    <button class="pill-item serif" data-view="specimens" aria-current="true"><span class="pl">Specimens</span><sup>1</sup></button>
+    <button class="pill-item serif" data-view="index"><span class="pl">Index</span><sup>2</sup></button>
+    <button class="pill-item serif" data-view="contact"><span class="pl">Contact</span><sup>3</sup></button>
   </header>
 
   <button class="sound" id="sound" aria-pressed="false" aria-label="Toggle sound">
@@ -41,10 +47,13 @@
 
   <div class="stage" id="stage" role="img" aria-label="A slowly rotating cloud of generative drawings. Drag to orbit, click one to inspect it."></div>
   <div class="cursor-label" id="cursorLabel" aria-hidden="true"></div>
+  <div class="cur-ring" id="curRing" aria-hidden="true"><span class="cur-text cur-view">View</span><span class="cur-text cur-dragtxt">Drag</span></div>
+  <div class="cur-dot" id="curDot" aria-hidden="true"></div>
+  <div class="peek" id="peek" aria-hidden="true"><canvas></canvas></div>
 
-  <footer class="hud" aria-hidden="true">
-    <span class="hud-l">Drag to orbit · Scroll to zoom · Click a specimen</span>
-    <span class="hud-c serif" id="hudCount">000</span>
+  <footer class="hud">
+    <div class="hud-l forms" id="forms" role="group" aria-label="Formation"><span class="forms-label">Form</span></div>
+    <span class="hud-c serif" id="hudCount" aria-hidden="true">000</span>
     <span class="hud-r"><span id="clock">--:--</span> local</span>
   </footer>
 
@@ -60,11 +69,11 @@
         <div class="col">
           <p class="kicker">Experiments<sup>in-house</sup></p>
           <ol class="list">
-            <li><span class="num">001</span><span class="title">AI Tools</span><span class="st run">Running</span>
+            <li data-gen="0"><span class="num">001</span><span class="title">AI Tools</span><span class="st run">Running</span>
               <p>AI that does real work, not demos. Assistants, data pipelines and workflows that quietly automate the boring parts.</p></li>
-            <li><span class="num">002</span><span class="title">Developer Utilities</span><span class="st run">Running</span>
+            <li data-gen="3"><span class="num">002</span><span class="title">Developer Utilities</span><span class="st run">Running</span>
               <p>Small, sharp tools that remove friction from building and shipping software.</p></li>
-            <li><span class="num">003</span><span class="title">Apps</span><span class="st">Queued</span>
+            <li data-gen="8"><span class="num">003</span><span class="title">Apps</span><span class="st">Queued</span>
               <p>Web and mobile apps built around one thing, done exceptionally well.</p></li>
           </ol>
         </div>
@@ -72,13 +81,13 @@
         <div class="col">
           <p class="kicker">Commissions<sup>for you</sup></p>
           <ol class="list">
-            <li><span class="num">C/1</span><span class="title">Web &amp; App Development</span>
+            <li data-gen="9"><span class="num">C/1</span><span class="title">Web &amp; App Development</span>
               <p>Websites, web apps and mobile apps, from rough prototype to production.</p></li>
-            <li><span class="num">C/2</span><span class="title">AI Integration</span>
+            <li data-gen="6"><span class="num">C/2</span><span class="title">AI Integration</span>
               <p>LLMs and automation wired into your product or operations. Measured wins, no hype.</p></li>
-            <li><span class="num">C/3</span><span class="title">Product Design</span>
+            <li data-gen="5"><span class="num">C/3</span><span class="title">Product Design</span>
               <p>UX and interface design that makes a product feel obvious and alive.</p></li>
-            <li><span class="num">C/4</span><span class="title">Technical Consulting</span>
+            <li data-gen="2"><span class="num">C/4</span><span class="title">Technical Consulting</span>
               <p>Architecture, code review and strategy, so your team makes the right calls early.</p></li>
           </ol>
         </div>
@@ -86,10 +95,10 @@
         <div class="col">
           <p class="kicker">Protocol</p>
           <ol class="list protocol">
-            <li><span class="num">01</span><span class="title serif">Observe</span><p>Goals, users, constraints. Define what success looks like.</p></li>
-            <li><span class="num">02</span><span class="title serif">Hypothesize</span><p>Architecture and experience, designed before production code.</p></li>
-            <li><span class="num">03</span><span class="title serif">Iterate</span><p>Short cycles, frequent demos. Watch the specimen evolve weekly.</p></li>
-            <li><span class="num">04</span><span class="title serif">Release</span><p>Ship, measure, keep improving. We stay in the lab after launch.</p></li>
+            <li data-gen="7"><span class="num">01</span><span class="title serif">Observe</span><p>Goals, users, constraints. Define what success looks like.</p></li>
+            <li data-gen="1"><span class="num">02</span><span class="title serif">Hypothesize</span><p>Architecture and experience, designed before production code.</p></li>
+            <li data-gen="10"><span class="num">03</span><span class="title serif">Iterate</span><p>Short cycles, frequent demos. Watch the specimen evolve weekly.</p></li>
+            <li data-gen="11"><span class="num">04</span><span class="title serif">Release</span><p>Ship, measure, keep improving. We stay in the lab after launch.</p></li>
           </ol>
         </div>
       </div>
