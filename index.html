@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/style.css?v=20261013083357">
+  <link rel="stylesheet" href="/assets/style.css?v=20261013084129">
 </head>
 <body>
   <header class="top">
@@ -101,7 +101,14 @@
     </nav>
     <p class="chint">Drag · Scroll · ← → keys · Click the front card to open</p>
   </main>
-  <script type="module" src="/assets/site.js?v=20261013083357"></script>
-  <script type="module" src="/assets/carousel.js?v=20261013083357"></script>
+
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Page" hidden>
+    <article class="modal-card">
+      <button class="modal-close" aria-label="Close">×</button>
+      <div class="modal-body" id="modalBody"></div>
+    </article>
+  </div>
+  <script type="module" src="/assets/site.js?v=20261013084129"></script>
+  <script type="module" src="/assets/carousel.js?v=20261013084129"></script>
 </body>
 </html>

@@ -1,4 +1,7 @@
 // Home: a 3D carousel of small poster cards with a glass nav bar.
+// Opening a card shows its page in a popup over the blurred carousel.
+import { mountFigures } from "./figures.js?v=20261013084129";
+
 const root = document.documentElement;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const stage = document.getElementById("stage");
@@ -61,6 +64,8 @@ function go(i) {
 
 // Ease pos toward active every frame
 const loop = () => {
+  // Nothing behind the popup moves while it's open
+  if (!modal.hidden) { requestAnimationFrame(loop); return; }
   if (!drag) {
     // Travel the short way around the loop
     let diff = active - pos;
@@ -92,9 +97,10 @@ playBtn.addEventListener("click", () => {
 
 addEventListener("keydown", (e) => {
   if (e.target.closest?.("input, textarea")) return;
+  if (!modal.hidden) { if (e.key === "Escape") closeModal(); return; }
   if (e.key === "ArrowRight") { stop(); go(active + 1); }
   if (e.key === "ArrowLeft") { stop(); go(active - 1); }
-  if (e.key === "Enter" && document.activeElement === document.body) location.href = cards[wrap(active)].dataset.href;
+  if (e.key === "Enter" && document.activeElement === document.body) openModal(cards[wrap(active)].dataset.href);
 });
 
 // Wheel: one card per gesture
@@ -140,14 +146,127 @@ const endDrag = (e) => {
   // A plain click: side card comes forward, front card opens
   if (!card) return;
   const i = cards.indexOf(card);
-  if (i === wrap(active)) location.href = card.dataset.href;
+  if (i === wrap(active)) openModal(card.dataset.href);
   else { stop(); go(active + (() => { let d = i - wrap(active); d -= Math.round(d / N) * N; return d; })()); }
 };
 stage.addEventListener("pointerup", endDrag);
 stage.addEventListener("pointercancel", () => { drag = null; stage.classList.remove("dragging"); go(Math.round(pos)); });
 // Links inside cards are handled by the click logic above
-// (keyboard activation has detail 0 and is allowed through)
-stage.addEventListener("click", (e) => { if (e.detail && e.target.closest(".cc a")) e.preventDefault(); });
+// Pointer clicks are handled above; keyboard activation (detail 0) opens the popup
+stage.addEventListener("click", (e) => {
+  const link = e.target.closest(".cc a");
+  if (!link) return;
+  e.preventDefault();
+  if (!e.detail) openModal(link.closest(".cc").dataset.href);
+});
+navOpen.addEventListener("click", (e) => { e.preventDefault(); openModal(navOpen.getAttribute("href")); });
+
+// ---------- Popup: a page's card over the blurred carousel ----------
+const modal = document.getElementById("modal");
+const modalCard = modal.querySelector(".modal-card");
+const modalBody = document.getElementById("modalBody");
+const homeTitle = document.title;
+const pages = new Map();
+let lastFocus = null;
+
+// Fetch a page once and keep its card's contents
+async function loadPage(href) {
+  const path = href.split("#")[0];
+  if (!pages.has(path)) {
+    pages.set(path, fetch(path).then((r) => r.text()).then((html) => {
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      const card = doc.querySelector(".card");
+      return { band: card.style.getPropertyValue("--band"), html: card.innerHTML, title: doc.title };
+    }));
+  }
+  return pages.get(path);
+}
+
+async function openModal(href, push = true) {
+  stop();
+  let page;
+  try { page = await loadPage(href); } catch { location.href = href; return; }
+  const wasOpen = !modal.hidden;
+  if (!wasOpen) lastFocus = document.activeElement;
+  modalCard.style.setProperty("--band", page.band);
+  modalBody.innerHTML = page.html;
+  // The popup has its own copy of the date; fill it, and drop ids the
+  // home page already uses
+  const now = new Date();
+  modalBody.querySelectorAll("#dateMon, #dateDay").forEach((n) => {
+    n.textContent = n.id === "dateMon" ? now.toLocaleString("en", { month: "short" }) : String(now.getDate()).padStart(2, "0");
+    n.removeAttribute("id");
+  });
+  mountFigures(modalBody);
+  const grid = modalBody.querySelector('svg[data-figure="grid"]');
+  modalBody.querySelectorAll("[data-station]").forEach((row) => {
+    row.addEventListener("pointerenter", () => grid?.fig?.setActive(+row.dataset.station));
+    row.addEventListener("pointerleave", () => grid?.fig?.setActive(null));
+  });
+  document.title = page.title;
+  // Each page opened in the popup is one history step deeper
+  if (push) history.pushState({ modal: href, depth: (history.state?.depth || 0) + 1 }, "", href);
+  modal.hidden = false;
+  root.classList.add("modal-open");
+  void modal.offsetWidth; // let the hidden state settle so the entrance animates
+  modal.classList.add("show");
+  if (wasOpen) modalCard.animate([{ opacity: 0.4, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0)" }], { duration: 380, easing: "ease-out" });
+  const hash = href.split("#")[1];
+  const target = hash && modalBody.querySelector(`#${CSS.escape(hash)}`);
+  if (target) target.scrollIntoView({ block: "start" });
+  else modal.scrollTop = 0;
+  modal.querySelector(".modal-close").focus({ preventScroll: true });
+}
+
+function hideModal() {
+  if (modal.hidden) return;
+  modal.classList.remove("show");
+  root.classList.remove("modal-open");
+  document.title = homeTitle;
+  setTimeout(() => {
+    if (modal.classList.contains("show")) return;
+    modal.hidden = true;
+    modalBody.innerHTML = "";
+  }, reduceMotion ? 0 : 380);
+  lastFocus?.focus?.({ preventScroll: true });
+}
+
+// × and Esc close the popup outright: rewind every step it added, so the
+// address bar returns to the home page (Back alone steps page by page)
+function closeModal() {
+  const depth = history.state?.depth || 0;
+  if (depth > 0) history.go(-depth);
+  else { history.replaceState(null, "", "/"); hideModal(); }
+}
+addEventListener("popstate", (e) => {
+  if (e.state?.modal) openModal(e.state.modal, false);
+  else hideModal();
+});
+
+modal.querySelector(".modal-close").addEventListener("click", closeModal);
+modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+
+// Links inside the popup stay inside it
+modalBody.addEventListener("click", (e) => {
+  const a = e.target.closest("a[href]");
+  if (!a || a.target === "_blank") return;
+  const url = new URL(a.getAttribute("href"), location.href);
+  if (url.origin !== location.origin) return;
+  e.preventDefault();
+  if (url.pathname === "/") closeModal();
+  else if (url.pathname === location.pathname && url.hash) modalBody.querySelector(url.hash)?.scrollIntoView({ behavior: "smooth" });
+  else openModal(url.pathname + url.hash);
+});
+
+// Keep Tab inside the popup while it's open
+modal.addEventListener("keydown", (e) => {
+  if (e.key !== "Tab") return;
+  const f = [...modal.querySelectorAll("a[href], button, [tabindex]:not([tabindex='-1'])")].filter((n) => n.offsetParent !== null);
+  if (!f.length) return;
+  const first = f[0], last = f[f.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+});
 
 // Stagger the load-in: the front card first, then each step outward
 cards.forEach((c, i) => {

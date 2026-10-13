@@ -331,16 +331,22 @@ document.addEventListener("pointerleave", () => { pointer.active = false; });
 
 const live = new Set();
 const mounted = [];
-for (const svg of document.querySelectorAll("svg[data-figure]")) {
-  const make = FIGURES[svg.dataset.figure];
-  if (!make) continue;
-  svg.setAttribute("viewBox", "0 0 500 500");
-  const fig = make(svg);
-  svg.fig = fig;
-  const item = { svg, fig, follow: svg.dataset.follow !== "off" };
-  mounted.push(item);
-  if (fig.click) svg.addEventListener("click", () => fig.click());
-  new IntersectionObserver(([e]) => (e.isIntersecting ? live.add(item) : live.delete(item))).observe(svg);
+
+// Mount every <svg data-figure> inside `scope` (the page, or a popup)
+export function mountFigures(scope = document) {
+  for (const svg of scope.querySelectorAll("svg[data-figure]")) {
+    if (svg.fig) continue;
+    const make = FIGURES[svg.dataset.figure];
+    if (!make) continue;
+    svg.setAttribute("viewBox", "0 0 500 500");
+    const fig = make(svg);
+    svg.fig = fig;
+    const item = { svg, fig, follow: svg.dataset.follow !== "off" };
+    mounted.push(item);
+    fig.update(0, null);
+    if (fig.click) svg.addEventListener("click", () => fig.click());
+    new IntersectionObserver(([e]) => (e.isIntersecting ? live.add(item) : live.delete(item))).observe(svg);
+  }
 }
 
 // Pointer in a figure's own 0–500 coordinates
@@ -349,12 +355,22 @@ const local = (svg) => {
   return { x: ((pointer.x - r.left) / r.width) * 500, y: ((pointer.y - r.top) / r.height) * 500 };
 };
 
+const root = document.documentElement;
+let paused = false;
+new MutationObserver(() => { paused = root.classList.contains("modal-open"); })
+  .observe(root, { attributes: true, attributeFilter: ["class"] });
+
 const start = performance.now();
 const frame = (now) => {
   const t = (now - start) / 1000;
-  for (const item of live) item.fig.update(t, pointer.active && item.follow ? local(item.svg) : null);
+  for (const item of live) {
+    // Figures removed with a closed popup drop out of the loop
+    if (!item.svg.isConnected) { live.delete(item); continue; }
+    // Behind an open popup the carousel is frozen, so the blur stays cheap
+    if (paused && item.svg.closest(".stage")) continue;
+    item.fig.update(t, pointer.active && item.follow ? local(item.svg) : null);
+  }
   if (!reduceMotion) requestAnimationFrame(frame);
 };
-// Draw a first frame right away (also the only frame with reduced motion)
-for (const item of mounted) item.fig.update(0, null);
+mountFigures();
 requestAnimationFrame(frame);

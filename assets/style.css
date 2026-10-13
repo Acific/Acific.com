@@ -275,6 +275,41 @@ a { color: inherit; text-decoration: none; }
   .chint { display: none; }
 }
 
+/* ---------- Popup: a page card over the blurred carousel ---------- */
+.modal {
+  position: fixed; inset: 0; z-index: 200;
+  overflow-y: auto; overscroll-behavior: contain;
+  padding: clamp(56px, 9vh, 96px) clamp(12px, 3vw, 24px) clamp(56px, 9vh, 96px);
+  background: rgba(12, 12, 14, 0.38);
+  backdrop-filter: blur(18px) saturate(0.85); -webkit-backdrop-filter: blur(18px) saturate(0.85);
+  opacity: 0; transition: opacity 0.35s ease;
+}
+.modal[hidden] { display: none; }
+.modal.show { opacity: 1; }
+.modal-card {
+  position: relative; max-width: 720px; margin: 0 auto;
+  background: var(--card); color: var(--ink);
+  border-radius: 18px; overflow: hidden;
+  box-shadow: 0 50px 120px -30px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  transform: translateY(48px) scale(0.98); filter: blur(10px);
+  transition: transform 0.65s var(--ease), filter 0.5s ease;
+}
+.modal-card::before { content: ""; display: block; height: 8px; background: var(--band, #b07a78); }
+.modal.show .modal-card { transform: none; filter: none; }
+.modal-body { padding: 44px var(--pad) 52px; display: flex; flex-direction: column; }
+.modal-body .card-head { margin-bottom: clamp(48px, 9vw, 88px); }
+.modal-body .card-foot { padding-top: 40px; }
+.modal-close {
+  position: absolute; top: 22px; right: 18px; z-index: 2;
+  width: 34px; height: 34px; border-radius: 50%; border: 0; cursor: pointer;
+  background: rgba(0, 0, 0, 0.06); color: var(--ink); font: 300 22px/1 var(--sans);
+  display: flex; align-items: center; justify-content: center; transition: background 0.2s, transform 0.3s var(--ease);
+}
+.modal-close:hover { background: rgba(0, 0, 0, 0.12); transform: rotate(90deg); }
+.home.modal-open .cnav, .home.modal-open .chint, .home.modal-open .top { pointer-events: none; }
+/* Reflections are costly to blur; drop them while the popup is up */
+.home.modal-open .cc a { -webkit-box-reflect: unset; }
+
 /* Load: everything comes out of a blur, front card first, then outward */
 @keyframes blurIn { from { opacity: 0; filter: blur(18px); } }
 @keyframes cardIn { from { opacity: 0; filter: blur(16px); transform: translateY(26px) scale(0.96); } }
@@ -306,5 +341,6 @@ a { color: inherit; text-decoration: none; }
   .reveal, .row, .next-title, .exp-fig, .mark span, .ticket, .dock a { transition: none; }
   .reveal { opacity: 1; transform: none; filter: none; }
   .home .top, .home .cc a, .home .cnav, .home .chint { animation: none; }
+  .modal, .modal-card { transition: none; }
   .st.run::before { animation: none; }
 }
