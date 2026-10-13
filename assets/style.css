@@ -41,6 +41,12 @@ a { color: inherit; text-decoration: none; }
   /* Takes the color of the card it sits on */
   color: var(--band, #cf5128); letter-spacing: 0; transition: color 0.45s ease;
 }
+/* "α." — the period in the heavy sans, back at the surrounding text size */
+.alpha::after {
+  content: "."; font-family: var(--sans); font-style: normal; font-weight: 800;
+  font-size: 0.77em; letter-spacing: 0; margin-left: 0.04em; color: var(--ink);
+}
+.top-mark .alpha::after, .dock-home .alpha::after { color: #fff; }
 
 /* ---------- Color band: a slim rounded bar inset inside each card, so the
    card's rounded outline stays whole ---------- */
