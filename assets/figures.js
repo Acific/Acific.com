@@ -267,6 +267,49 @@ const FIGURES = {
     };
   },
 
+  // Five rooms seen from above at an angle, with bodies at their desks and
+  // others walking work between them: OkayPanda. The room under the pointer
+  // gets busier; a click hires someone into a room
+  office(svg) {
+    const C = [250, 258], W = 84, Hh = 42;
+    const rooms = [[0, 0], [-142, -71], [142, -71], [-142, 71], [142, 71]].map(([x, y]) => ({ x: C[0] + x, y: C[1] + y, staff: [] }));
+    const stroke = { fill: "none", stroke: "var(--ink)", "stroke-width": 1, "vector-effect": "non-scaling-stroke" };
+    for (const r of rooms) {
+      el("path", { ...stroke, d: `M ${r.x} ${r.y - Hh} L ${r.x + W} ${r.y} L ${r.x} ${r.y + Hh} L ${r.x - W} ${r.y} Z` }, svg);
+      el("path", { ...stroke, d: `M ${r.x - W} ${r.y} L ${r.x - W} ${r.y + 14} L ${r.x} ${r.y + Hh + 14} L ${r.x + W} ${r.y + 14} L ${r.x + W} ${r.y}` }, svg);
+    }
+    const body = goo(svg, 6);
+    const seat = (r) => {
+      const i = r.staff.length, a = i * 2.1 + 0.6;
+      r.staff.push({ c: el("circle", { r: 0 }, body), dx: i ? Math.cos(a) * 36 : 0, dy: i ? Math.sin(a) * 15 : 0, born: -1 });
+    };
+    rooms.forEach(seat);
+    const walkers = [1, 2, 3, 4].map((to, i) => ({ to, phase: i * 0.27, c: el("circle", { r: 12 }, body) }));
+    let hot = -1;
+    return {
+      update(t, p) {
+        hot = -1;
+        if (p) rooms.forEach((r, i) => { if (Math.abs(p.x - r.x) / W + Math.abs(p.y - r.y) / Hh < 1.2) hot = i; });
+        rooms.forEach((r, i) => r.staff.forEach((s, j) => {
+          if (s.born < 0) s.born = t;
+          const grow = Math.min(1, (t - s.born) * 2);
+          set(s.c, r.x + s.dx, r.y + s.dy - 6 + Math.sin(t * 2 + i + j) * 1.5);
+          s.c.setAttribute("r", ((j ? 15 : 21) * grow * (i === hot ? 1.18 : 1)).toFixed(2));
+        }));
+        // walkers carry work from the middle room out and back
+        for (const w of walkers) {
+          const k = (t * 0.22 + w.phase) % 1, f = k < 0.5 ? k * 2 : 2 - k * 2;
+          const e = f * f * (3 - 2 * f), a = rooms[0], b = rooms[w.to];
+          set(w.c, lerp(a.x, b.x, e), lerp(a.y, b.y, e) - 10 - Math.abs(Math.sin(t * 9 + w.phase * 20)) * 2);
+        }
+      },
+      click() {
+        const open = rooms.filter((r) => r.staff.length < 4);
+        if (open.length) seat(hot >= 0 && rooms[hot].staff.length < 4 ? rooms[hot] : open[Math.floor(Math.random() * open.length)]);
+      },
+    };
+  },
+
   // Two bodies in a slow dance inside three rings
   pair(svg) {
     const C = [250, 250];
