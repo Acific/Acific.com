@@ -1,6 +1,6 @@
 // Home: a 3D carousel of small poster cards with a glass nav bar.
 // Opening a card shows its page in a popup over the blurred carousel.
-import { mountFigures } from "./figures.js?v=20261013194741";
+import { mountFigures } from "./figures.js?v=20261014210734";
 
 const root = document.documentElement;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -243,6 +243,8 @@ async function loadPage(href) {
 }
 
 async function openModal(href, push = true) {
+  // Cards for other sites (like Brand World Building) open in a new tab
+  if (/^https?:\/\//.test(href)) { window.open(href, "_blank", "noopener"); return; }
   stop();
   let page;
   try { page = await loadPage(href); } catch { location.href = href; return; }

@@ -226,6 +226,47 @@ const FIGURES = {
     };
   },
 
+  // A wireframe globe that turns, with a body orbiting on a tilted ring:
+  // Brand World Building. The globe leans toward the pointer; a click spins it
+  world(svg) {
+    const C = [250, 250], R = 128;
+    const tilt = el("g", {}, svg);
+    const stroke = { fill: "none", stroke: "var(--ink)", "stroke-width": 1, "vector-effect": "non-scaling-stroke" };
+    const back = el("ellipse", { ...stroke, rx: 212, ry: 54 }, tilt);
+    const globe = el("g", {}, tilt);
+    el("circle", { r: R, fill: "var(--card, #fff)", stroke: "none" }, globe);
+    el("circle", { ...stroke, r: R }, globe);
+    [-0.62, -0.3, 0, 0.3, 0.62].forEach((k) => {
+      const y = k * R, rx = Math.sqrt(R * R - y * y);
+      el("ellipse", { ...stroke, cy: y, rx, ry: rx * 0.16 }, globe);
+    });
+    const merid = Array.from({ length: 6 }, () => el("ellipse", { ...stroke, ry: R }, globe));
+    const front = el("path", { ...stroke }, tilt);
+    const body = goo(svg, 7);
+    const moon = el("circle", { r: 26 }, body);
+    let spin = 0, speed = 0.35, lean = -14;
+    return {
+      update(t, p) {
+        speed += (0.35 - speed) * 0.02;
+        spin += speed / 60;
+        const goal = p ? Math.max(-30, Math.min(30, (p.x - C[0]) / 8)) - 14 : -14 + Math.sin(t * 0.3) * 4;
+        lean = lerp(lean, goal, 0.05);
+        tilt.setAttribute("transform", `translate(${C[0]} ${C[1]}) rotate(${lean.toFixed(2)})`);
+        merid.forEach((m, i) => m.setAttribute("rx", (R * Math.abs(Math.sin(spin + (i * Math.PI) / 6))).toFixed(2)));
+        // The ring's near half passes in front of the globe
+        front.setAttribute("d", "M -212 0 A 212 54 0 0 0 212 0");
+        const a = t * 0.55;
+        const mx = Math.cos(a) * 212, my = Math.sin(a) * 54;
+        const r = (lean * Math.PI) / 180;
+        set(moon, C[0] + mx * Math.cos(r) - my * Math.sin(r), C[1] + mx * Math.sin(r) + my * Math.cos(r));
+        moon.setAttribute("r", (Math.sin(a) > 0 ? 26 : 20).toFixed(1));
+        body.parentNode.append(body);
+        if (Math.sin(a) < 0) svg.insertBefore(body, tilt);
+      },
+      click() { speed += 2.2; },
+    };
+  },
+
   // Two bodies in a slow dance inside three rings
   pair(svg) {
     const C = [250, 250];
