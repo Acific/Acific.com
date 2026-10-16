@@ -1,6 +1,6 @@
 // Shared behaviour: live date in the card header, page reveal, commission
 // rows steering the figure, and 1–5 keys to jump between pages.
-import "./figures.js?v=20261016000223";
+import "./figures.js?v=20261016170921";
 
 const root = document.documentElement;
 
