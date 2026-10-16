@@ -310,6 +310,68 @@ const FIGURES = {
     };
   },
 
+  // Computers in a ring around a portal, each wired to it, with packets running
+  // out and back: OkayPortal. The computer under the pointer gets busier;
+  // a click connects another computer
+  portal(svg) {
+    const C = [250, 252], R = 168;
+    const stroke = { fill: "none", stroke: "var(--ink)", "stroke-width": 1, "vector-effect": "non-scaling-stroke" };
+    const wires = el("g", {}, svg), screens = el("g", {}, svg);
+    const body = goo(svg, 5);
+    const hub = el("circle", { r: 38 }, body);
+    const nodes = [];
+    const add = () => {
+      if (nodes.length >= 8) return;
+      const n = nodes.length + 1;
+      nodes.push({
+        a: -Math.PI / 2 + ((n - 1) / n) * TAU,
+        born: -1,
+        wire: el("line", stroke, wires),
+        scr: el("rect", { ...stroke, width: 68, height: 44, rx: 6 }, screens),
+        stand: el("path", stroke, screens),
+        agent: el("circle", { r: 0 }, body),
+        packets: [0, 0.5].map((ph) => ({ ph, c: el("circle", { r: 0 }, body) })),
+      });
+    };
+    for (let i = 0; i < 5; i++) add();
+    let hot = -1;
+    return {
+      update(t, p) {
+        const n = nodes.length;
+        set(hub, C[0], C[1]);
+        hub.setAttribute("r", (38 + Math.sin(t * 2) * 3).toFixed(2));
+        hot = -1;
+        nodes.forEach((d, i) => {
+          if (d.born < 0) d.born = t;
+          d.a += angDiff(d.a, -Math.PI / 2 + (i / n) * TAU) * 0.08;
+          const grow = Math.min(1, (t - d.born) * 2);
+          const x = C[0] + Math.cos(d.a) * R, y = C[1] + Math.sin(d.a) * R * 0.9;
+          if (p && Math.hypot(p.x - x, p.y - y) < 50) hot = i;
+          d.scr.setAttribute("x", (x - 34).toFixed(2));
+          d.scr.setAttribute("y", (y - 24).toFixed(2));
+          d.stand.setAttribute("d", `M ${(x - 13).toFixed(2)} ${(y + 30).toFixed(2)} L ${(x + 13).toFixed(2)} ${(y + 30).toFixed(2)} M ${x.toFixed(2)} ${(y + 20).toFixed(2)} L ${x.toFixed(2)} ${(y + 30).toFixed(2)}`);
+          d.scr.setAttribute("opacity", grow.toFixed(2));
+          d.stand.setAttribute("opacity", grow.toFixed(2));
+          // the wire runs from the portal's edge to the screen's edge
+          const dx = x - C[0], dy = y - C[1], len = Math.hypot(dx, dy), ux = dx / len, uy = dy / len;
+          const sx = C[0] + ux * 46, sy = C[1] + uy * 46, ex = x - ux * 38, ey = y - uy * 30;
+          d.wire.setAttribute("x1", sx.toFixed(2)); d.wire.setAttribute("y1", sy.toFixed(2));
+          d.wire.setAttribute("x2", lerp(sx, ex, grow).toFixed(2)); d.wire.setAttribute("y2", lerp(sy, ey, grow).toFixed(2));
+          set(d.agent, x, y - 2);
+          d.agent.setAttribute("r", (11 * grow * (i === hot ? 1.4 : 1)).toFixed(2));
+          // one packet travels out, the other comes back; both swell mid-wire
+          const speed = i === hot ? 0.95 : 0.32;
+          d.packets.forEach((pk, j) => {
+            const k = (t * speed + pk.ph + i * 0.17) % 1, e = j ? 1 - k : k;
+            set(pk.c, lerp(C[0], x, e), lerp(C[1], y - 2, e));
+            pk.c.setAttribute("r", (grow * (5 + 9 * Math.sin(k * Math.PI))).toFixed(2));
+          });
+        });
+      },
+      click() { add(); },
+    };
+  },
+
   // Two bodies in a slow dance inside three rings
   pair(svg) {
     const C = [250, 250];
