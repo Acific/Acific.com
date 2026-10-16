@@ -372,6 +372,56 @@ const FIGURES = {
     };
   },
 
+  // Loose beads drift together into a check inside a ring, hold, then scatter,
+  // while two products orbit the rim: The Okay Technology Company. Hovering
+  // keeps the check made; a click scatters the beads somewhere new
+  okay(svg) {
+    const C = [250, 250];
+    set(ring(svg, 168), C[0], C[1]);
+    set(ring(svg, 212), C[0], C[1]);
+    const body = goo(svg, 7);
+    // the check: down-stroke then the long up-stroke
+    const P = [[178, 258], [228, 306], [330, 196]];
+    const segA = Math.hypot(P[1][0] - P[0][0], P[1][1] - P[0][1]);
+    const segB = Math.hypot(P[2][0] - P[1][0], P[2][1] - P[1][1]);
+    const along = (s) => {
+      const d = s * (segA + segB);
+      if (d <= segA) return [lerp(P[0][0], P[1][0], d / segA), lerp(P[0][1], P[1][1], d / segA)];
+      const k = (d - segA) / segB;
+      return [lerp(P[1][0], P[2][0], k), lerp(P[1][1], P[2][1], k)];
+    };
+    const loose = () => { const a = Math.random() * TAU, r = 40 + Math.random() * 110; return [C[0] + Math.cos(a) * r, C[1] + Math.sin(a) * r]; };
+    const beads = Array.from({ length: 11 }, (_, i) => ({ home: along(i / 10), from: loose(), c: el("circle", { r: 0 }, body), ph: Math.random() * TAU }));
+    const products = [0, Math.PI].map((a) => ({ a, c: el("circle", { r: 20 }, body) }));
+    let t0 = 0, now = 0, made = 0;
+    return {
+      update(t, p) {
+        now = t;
+        const k = ((t - t0) * 0.16) % 1;
+        const ease = (x) => x * x * (3 - 2 * x);
+        let e = k < 0.35 ? ease(k / 0.35) : k < 0.82 ? 1 : 1 - ease((k - 0.82) / 0.18);
+        if (p && Math.hypot(p.x - C[0], p.y - C[1]) < 190) e = 1;
+        made += (e - made) * 0.12;
+        beads.forEach((b, i) => {
+          const wob = (1 - made) * 9;
+          set(b.c, lerp(b.from[0], b.home[0], made) + Math.cos(t * 1.3 + b.ph) * wob, lerp(b.from[1], b.home[1], made) + Math.sin(t * 1.1 + b.ph) * wob);
+          // beads swell as they join so the check reads as one stroke
+          b.c.setAttribute("r", (8 + made * 8 + Math.sin(t * 3 + i) * 0.8).toFixed(2));
+        });
+        products.forEach((q, i) => {
+          const a = q.a + t * 0.35;
+          set(q.c, C[0] + Math.cos(a) * 212, C[1] + Math.sin(a) * 212);
+          q.c.setAttribute("r", (18 + made * 4 + Math.sin(t * 2 + i * 3) * 1.5).toFixed(2));
+        });
+      },
+      click() {
+        beads.forEach((b) => { b.from = loose(); });
+        made = 0;
+        t0 = now;
+      },
+    };
+  },
+
   // Two bodies in a slow dance inside three rings
   pair(svg) {
     const C = [250, 250];
